@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Alef_parents
 A new Flutter project.
 
