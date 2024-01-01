@@ -1,10 +1,18 @@
 import 'package:alef_parents/core/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../../events/domain/entities/events.dart';
+
 class CalendarWidget extends StatefulWidget {
+   final Function(String) onDaySelected;
+   final List<Events>? events; 
+
+  CalendarWidget({required this.onDaySelected, this.events});
   @override
   _CalendarWidgetState createState() => _CalendarWidgetState();
+
 }
 
 class _CalendarWidgetState extends State<CalendarWidget> {
@@ -37,6 +45,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               _selectedDay = selectedDay;
               _focusedDay = focusedDay;
             });
+            final formattedDate = DateFormat('yyyy-MM-dd').format(_selectedDay);
+              widget.onDaySelected(formattedDate);
           },
           onHeaderTapped: (focusedDay) {
             setState(() {
@@ -49,7 +59,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               shape: BoxShape.circle,
             ),
             todayDecoration: const BoxDecoration(
-               color: Color.fromARGB(255, 223, 236, 236),
+              color: Color.fromARGB(255, 223, 236, 236),
               shape: BoxShape.circle,
             ),
             todayTextStyle: const TextStyle(
@@ -57,8 +67,22 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               fontWeight: FontWeight.bold,
             ),
           ),
+ eventLoader: (day) {
+  // Return events for the given day if events is not null
+  return widget.events?.where((event) {
+    final eventDateTime = DateTime.tryParse(event.eventDate ?? "");
+    return eventDateTime != null && isSameDay(eventDateTime, day);
+  })
+  .map((event) => event.eventName)
+  .toList() ??
+  [];
+},
+
+
+
         ),
       ),
     );
   }
+  // DateTime get selectedDay => _selectedDay;
 }

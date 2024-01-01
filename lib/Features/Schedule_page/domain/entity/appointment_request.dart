@@ -14,9 +14,9 @@ class AppointmentRequest {
 
   Map<String, dynamic> toJson() {
     return {
-      'application_id': application_id,
       'date': date,
       'preschool_id': preschool_id,
+      'application_id': application_id,
       'time': time
     };
   }

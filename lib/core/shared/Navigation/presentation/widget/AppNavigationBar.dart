@@ -55,14 +55,14 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
                 },
               ),
               // Add the remaining bottom bar icons here
-               IconBottomBar(
-                text: S.of(context).preschool,
-                icon: Icons.holiday_village,
-                selected: widget.selectedIndex == 3,
-                onPressed: () {
-                  widget.onItemTapped(3);
-                },
-              ),
+              //  IconBottomBar(
+              //   text: S.of(context).preschool,
+              //   icon: Icons.holiday_village,
+              //   selected: widget.selectedIndex == 3,
+              //   onPressed: () {
+              //     widget.onItemTapped(3);
+              //   },
+              // ),
             ],
           ),
         ),

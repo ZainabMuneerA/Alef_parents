@@ -1,3 +1,5 @@
+import 'package:alef_parents/Features/User_Profile/presentation/bloc/student/student_bloc.dart';
+import 'package:alef_parents/Features/User_Profile/presentation/widgets/StudentDropDown.dart';
 import 'package:alef_parents/Features/enroll_student/presentation/bloc/Application/application_bloc.dart';
 import 'package:alef_parents/core/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -17,14 +19,27 @@ List<TabPair> TabPairs = [
     tab: Tab(
       text: 'My Kids',
     ),
-    view: Center(
-      child: Text(
-        'My Kids',
-        style: TextStyle(
-          fontSize: 25,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
+    view: BlocBuilder<StudentBloc, StudentState>(
+      builder: (context, state) {
+        if (state is LoadingStudentState) {
+          return LoadingWidget();
+        } else if (state is LoadedStudentState) {
+          // Create a StudentDropDown for each student
+          List<StudentDropDown> dropDowns = state.student.map((student) {
+            return StudentDropDown(
+              studentName: student.name,
+              studentGrade: student.grade,
+              studentId: student.id,
+              classId: student.classID,
+            );
+          }).toList();
+          return ListView(
+            children: dropDowns,
+          );
+        } else {
+          return LoadingWidget();
+        }
+      },
     ),
   ),
   TabPair(
@@ -74,7 +89,6 @@ class _TabBarAndTabViewsState extends State<TabBarAndTabViews>
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          // give the tab bar a height [can change height to preferred height]
           Container(
             height: 45,
             decoration: BoxDecoration(
@@ -93,7 +107,6 @@ class _TabBarAndTabViewsState extends State<TabBarAndTabViews>
               padding: EdgeInsets.all(6),
               child: TabBar(
                   controller: _tabController,
-                  // give the indicator a decoration (color and border radius)
                   indicator: BoxDecoration(
                     borderRadius: BorderRadius.circular(
                       8.0,
@@ -102,12 +115,11 @@ class _TabBarAndTabViewsState extends State<TabBarAndTabViews>
                   ),
                   labelColor: Colors.white,
                   unselectedLabelColor: Colors.black,
+                  indicatorSize: TabBarIndicatorSize.tab,
                   tabs: TabPairs.map((tabPair) => tabPair.tab).toList()),
             ),
           ),
-          SizedBox(
-            height: 10,
-          ),
+
           Expanded(
             child: TabBarView(
                 controller: _tabController,

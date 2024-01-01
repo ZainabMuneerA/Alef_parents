@@ -24,8 +24,7 @@ class PreschoolRepositoryImp implements PreschoolRepository {
   Future<Either<Failure, List<Preschool>>> getPreschools() async {
     if (await networkInfo.isConnected) {
       try {
-        final remotePreschool =
-            await preschoolRemoteDataSource.getAllPreschool();
+        final remotePreschool = await preschoolRemoteDataSource.getAllPreschool();
         preschoolLocalDataSource.cachedPreschool(remotePreschool);
         return right(remotePreschool);
       } on ServerException {
@@ -44,26 +43,30 @@ class PreschoolRepositoryImp implements PreschoolRepository {
 
   @override
   Future<Either<Failure, Preschool>> getPreschoolById(int id) async {
-      
     if (await networkInfo.isConnected) {
       try {
         final preschool = await preschoolRemoteDataSource.getPreschoolById(id);
-         return Right(preschool);
+        return Right(preschool);
       } on ServerException {
         return Left(ServerFailure());
       }
     } else {
       return Left(OfflineFailure());
     }
-
-
   }
 
   @override
-  Future<Either<Failure, List<Preschool>>> getPreschoolByName(String name) {
-      return _getPreschool(() {
-    return preschoolRemoteDataSource.getPreschoolByName(name);
-  });
+  Future<Either<Failure, List<Preschool>>> getPreschoolByName(
+    String? name,
+    int? age,
+    String? area,
+    double? latitude,
+    double? longitude,
+  ) {
+    return _getPreschool(() {
+      return preschoolRemoteDataSource.getPreschoolByName(
+          name, age, area, latitude, longitude);
+    });
   }
 
   Future<Either<Failure, List<Preschool>>> _getPreschool(
@@ -71,7 +74,28 @@ class PreschoolRepositoryImp implements PreschoolRepository {
     if (await networkInfo.isConnected) {
       try {
         final preschool = await searchByIdOrName();
-         return Right(preschool);
+        return Right(preschool);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Preschool>>> getRecommendedPreschools() {
+    return _getPreschool(() {
+      return preschoolRemoteDataSource.getRecommendedPreschool();
+    });
+  }
+  
+  @override
+  Future<Either<Failure, List<String>>> getPreschoolGrades(int id) async{
+    if (await networkInfo.isConnected) {
+      try {
+        final grade = await preschoolRemoteDataSource.getPreschoolGrades(id);
+        return Right(grade);
       } on ServerException {
         return Left(ServerFailure());
       }

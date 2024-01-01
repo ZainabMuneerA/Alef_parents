@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class ReusableInputField extends StatelessWidget {
   final String label;
   final TextEditingController inputController;
@@ -7,12 +8,14 @@ class ReusableInputField extends StatelessWidget {
   final String hintText;
   final bool isNumeric;
   final bool isMultiline;
-    static const primaryColor = Color.fromARGB(255, 87, 77, 205);
-   static const secondaryColor = Color(0xff6D28D9);
-   static const accentColor = Color(0xffffffff);
-   static const errorColor = Color(0xffEF4444);
+  final bool isEmail;
+  final bool isPassword;
+  static const primaryColor = Color.fromARGB(255, 87, 77, 205);
+  static const secondaryColor = Color(0xff6D28D9);
+  static const accentColor = Color(0xffffffff);
+  static const errorColor = Color(0xffEF4444);
 
-  ReusableInputField({
+  const ReusableInputField({
     Key? key,
     required this.label,
     required this.inputController,
@@ -20,12 +23,14 @@ class ReusableInputField extends StatelessWidget {
     this.hintText = '',
     this.isNumeric = false,
     this.isMultiline = false,
+    this.isPassword = false,
+    this.isEmail = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 0.0),
+      padding: const EdgeInsets.symmetric(horizontal: 0.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -41,7 +46,7 @@ class ReusableInputField extends StatelessWidget {
             height: 8,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            padding: const EdgeInsets.symmetric(horizontal: 0.0),
             child: Container(
               decoration: BoxDecoration(
                 boxShadow: [
@@ -57,6 +62,8 @@ class ReusableInputField extends StatelessWidget {
                   ? buildMultilineTextField()
                   : TextField(
                       controller: inputController,
+                      readOnly: isEmail,
+                      obscureText: isPassword, // Set to true for password
                       onChanged: (value) {
                         // Do something with the value
                       },
@@ -64,34 +71,33 @@ class ReusableInputField extends StatelessWidget {
                           isNumeric ? TextInputType.number : keyboardType,
                       style: const TextStyle(fontSize: 14, color: Colors.black),
                       decoration: InputDecoration(
-                        label: Text(label),
+                        labelText: isEmail ? null : label,
                         labelStyle: const TextStyle(color: primaryColor),
                         filled: true,
                         fillColor: accentColor,
                         hintText: hintText,
-                        hintStyle:
-                            TextStyle(color: secondaryColor),
+                        hintStyle: const TextStyle(color: secondaryColor),
                         contentPadding: const EdgeInsets.symmetric(
                           vertical: 20.0,
                           horizontal: 20.0,
                         ),
                         border: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: primaryColor, width: 1.0),
+                              const BorderSide(color: primaryColor, width: 1.0),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: secondaryColor, width: 1.0),
+                              const BorderSide(color: secondaryColor, width: 1.0),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: errorColor, width: 1.0),
+                          borderSide: const BorderSide(color: errorColor, width: 1.0),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: primaryColor, width: 1.0),
+                              const BorderSide(color: primaryColor, width: 1.0),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
@@ -103,9 +109,8 @@ class ReusableInputField extends StatelessWidget {
     );
   }
 
- Widget buildMultilineTextField({String? hintText}) {
-  return Container(
-    child: TextField(
+  Widget buildMultilineTextField({String? hintText}) {
+    return TextField(
       controller: inputController,
       onChanged: (value) {
         // Do something with the value
@@ -121,31 +126,28 @@ class ReusableInputField extends StatelessWidget {
         hintText: hintText,
         hintStyle: TextStyle(color: Colors.grey.withOpacity(.75)),
         contentPadding: const EdgeInsets.all(20.0),
-        border: OutlineInputBorder(
+        border: const OutlineInputBorder(
           borderSide: BorderSide(color: primaryColor, width: 1.0),
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
-
-
-  
-}
-
 
 class FloatingLabelTextField extends StatefulWidget {
   final String? hintText;
+  final TextEditingController inputController;
 
-  const FloatingLabelTextField({Key? key, this.hintText}) : super(key: key);
+  const FloatingLabelTextField(
+      {Key? key, this.hintText, required this.inputController})
+      : super(key: key);
 
   @override
   _FloatingLabelTextFieldState createState() => _FloatingLabelTextFieldState();
 }
 
 class _FloatingLabelTextFieldState extends State<FloatingLabelTextField> {
-  TextEditingController _controller = TextEditingController();
   bool _isFocused = false;
 
   @override
@@ -153,30 +155,32 @@ class _FloatingLabelTextFieldState extends State<FloatingLabelTextField> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
-        controller: _controller,
+        controller: widget.inputController,
         keyboardType: TextInputType.multiline,
         maxLines: null,
         style: const TextStyle(fontSize: 14, color: Colors.black),
         decoration: InputDecoration(
           labelText: _isFocused ? widget.hintText : null,
           labelStyle: TextStyle(
-            color: _isFocused ? Color.fromARGB(255, 87, 77, 205) : Color.fromARGB(255, 87, 77, 205),
+            color: _isFocused
+                ? const Color.fromARGB(255, 87, 77, 205)
+                : const Color.fromARGB(255, 87, 77, 205),
           ),
           hintText: _isFocused ? null : widget.hintText,
-          hintStyle: TextStyle(color: Color.fromARGB(255, 87, 77, 205)),
+          hintStyle: const TextStyle(color: Color.fromARGB(255, 87, 77, 205)),
           contentPadding: const EdgeInsets.all(20.0),
           border: OutlineInputBorder(
             borderSide:
-                BorderSide(color: Color.fromARGB(255, 87, 77, 205), width: 1.0),
+                const BorderSide(color: Color.fromARGB(255, 87, 77, 205), width: 1.0),
             borderRadius: BorderRadius.circular(10.0),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Color(0xff6D28D9), width: 1.0),
+            borderSide: const BorderSide(color: Color(0xff6D28D9), width: 1.0),
             borderRadius: BorderRadius.circular(10.0),
           ),
           enabledBorder: OutlineInputBorder(
             borderSide:
-                BorderSide(color: Color.fromARGB(255, 87, 77, 205), width: 1.0),
+                const BorderSide(color: Color.fromARGB(255, 87, 77, 205), width: 1.0),
             borderRadius: BorderRadius.circular(10.0),
           ),
         ),
@@ -200,6 +204,7 @@ class _FloatingLabelTextFieldState extends State<FloatingLabelTextField> {
             _isFocused = false;
           });
         },
+      
       ),
     );
   }

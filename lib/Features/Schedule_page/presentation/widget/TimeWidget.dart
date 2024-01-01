@@ -2,9 +2,10 @@ import 'package:alef_parents/core/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class TimeWidget extends StatefulWidget {
-  final List<String> availableTimes;
+  final Function(String) onTimeSelected;
+  final List availableTimes;
 
-  TimeWidget({required this.availableTimes});
+  TimeWidget({required this.availableTimes, required this.onTimeSelected});
 
   @override
   _TimeWidgetState createState() => _TimeWidgetState();
@@ -44,6 +45,7 @@ class _TimeWidgetState extends State<TimeWidget> {
                   setState(() {
                     selectedTime = time;
                   });
+                  widget.onTimeSelected(time);
                 },
                 child: Container(
                   padding:
@@ -68,4 +70,6 @@ class _TimeWidgetState extends State<TimeWidget> {
       ),
     );
   }
+
+  // String get selectTime => selectTime;
 }

@@ -1,10 +1,24 @@
 {
-    "search_hint" : "Search a Preschool",
-    "home_title" : "Recommended",
-    "home_sub_title" : "Preschools",
-    "home" : "Home",
-    "search" : "Search",
-    "profile" : "Profile",
-    "preschool" : "preschool"
-
+    "search_hint": "Search a Preschool",
+    "home_title": "Recommended",
+    "home_sub_title": "Preschools",
+    "home": "Home",
+    "search": "Search",
+    "profile": "Profile",
+    "preschool": "preschool",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "no_account": "Don't have an account? ",
+    "yes_account": "Have an account? ",
+    "login": "Login",
+    "notification": "Notifications",
+    "current_lang": "Current Language",
+    "about_us": "About Us",
+    "contact_us": "Contact Us",
+    "name": "Name",
+    "log_out": "Log Out",
+    "settings":"Settings",
+    "about_alef": "The Alef app is a dedicated platform designed to empower parents in their quest for the perfect preschool for their children. Tailored to streamline the often intricate process of preschool selection and enrollment, Alef offers a user-friendly interface that allows parents to explore various preschool options effortlessly. With a comprehensive database of preschools, Alef provides detailed information, including facilities, programs, and user reviews, enabling parents to make informed decisions. The app's intuitive features guide parents through the enrollment process, ensuring a seamless and efficient registration experience. Alef stands as a trusted companion for parents, simplifying the journey of finding and securing the ideal preschool for their little ones."
 }

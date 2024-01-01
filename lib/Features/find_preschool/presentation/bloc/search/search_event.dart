@@ -43,5 +43,21 @@ class GetPreschoolByNameEvent extends SearchEvent {
   ];
 }
 
+class GetRecommendedPreschoolEvent extends SearchEvent {
+
+  GetRecommendedPreschoolEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+class GetPreschoolGradesEvent extends SearchEvent {
+  final int id;
+
+  GetPreschoolGradesEvent(this.id);
+
+  @override
+  List<Object> get props => [id];
+}
 
 

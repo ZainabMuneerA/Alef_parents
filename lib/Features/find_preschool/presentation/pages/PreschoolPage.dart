@@ -1,3 +1,4 @@
+import 'package:alef_parents/Features/find_preschool/domain/entity/preschool.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -6,9 +7,10 @@ import '../../../../core/app_theme.dart';
 import '../../../../core/shared/Navigation/presentation/widget/ArchWidget.dart';
 import '../../../../core/widget/loading_widget.dart';
 import '../../../../core/widget/profilePic.dart';
-import '../bloc/prschool/search/search_bloc.dart';
+import '../../../enroll_student/presentation/pages/EnrollStudent.dart';
+
+import '../bloc/search/search_bloc.dart';
 import '../widgets/ImageGallery.dart';
-import '../widgets/PreschoolProfileWidget.dart';
 import '../widgets/message_display.dart';
 
 class PreschoolProfile extends StatefulWidget {
@@ -22,11 +24,12 @@ class PreschoolProfile extends StatefulWidget {
 }
 
 class _PreschoolProfileState extends State<PreschoolProfile> {
-  bool _isEnglishEnabled = true;
+  // bool _isEnglishEnabled = true;
+  // late Future<SearchState> _searchFuture;
+  late String _preschoolName;
 
   @override
   Widget build(BuildContext context) {
-    print('Preschool ID: ${widget.preschoolId}');
     return MultiBlocProvider(
       providers: [
         BlocProvider<SearchBloc>(
@@ -48,29 +51,29 @@ class _PreschoolProfileState extends State<PreschoolProfile> {
                       height: 350,
                     ),
                   ),
-                  // Positioned(
-                  //   top: 25,
-                  //   right: 16,
-                  //   child: IconButton(
-                  //     icon: Icon(
-                  //       Icons.location_on_outlined,
-                  //       color: Colors.white,
-                  //       size: 30,
-                  //     ),
-                  //     onPressed: () {
-                  //       showLocationSelectionBottomSheet(context);
-                  //     },
-                  //   ),
-                  // ),
-
                   Positioned(
-                    top: 25,
+                    top: 30,
+                    left: 16,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                      onPressed: () {
+                        // Handle the back button press
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                  Positioned(
+                    top: 30,
                     right: 16,
                     child: BlocBuilder<SearchBloc, SearchState>(
                       builder: (context, state) {
                         if (state is LoadedSearchIdState) {
                           return IconButton(
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.location_on_outlined,
                               color: Colors.white,
                               size: 30,
@@ -78,13 +81,13 @@ class _PreschoolProfileState extends State<PreschoolProfile> {
                             onPressed: () {
                               showLocationSelectionBottomSheet(
                                 context,
-                                state.preschool.address!.longitude,
+                                state.preschool.address!.latitude,
                                 state.preschool.address!.longitude,
                               );
                             },
                           );
                         } else {
-                          return SizedBox
+                          return const SizedBox
                               .shrink(); // or return a default widget
                         }
                       },
@@ -92,34 +95,49 @@ class _PreschoolProfileState extends State<PreschoolProfile> {
                   ),
 
                   _preschoolHeader(),
+                  // const SizedBox(height: 20,),
                   _profileSummary(),
                 ],
               ),
-
-              // Other widgets for the user profile page, such as email address, bio, etc.
-              _locationContainer(),
-              const SizedBox(height: 16),
-              _informationContainer(),
-              const SizedBox(height: 16),
-              Container(
-                width: 350,
-                height: 280,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: ImageGallery(
-                    imageUrls: [
-                      'lib/assets/images/imageHolder.jpeg',
-                      'lib/assets/images/imageHolder.jpeg',
-                      'lib/assets/images/imageHolder.jpeg',
-                    ],
-                  ),
-                ),
-              ),
-              _registerContactWidget(),
+              BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
+                if (state is LoadedSearchIdState) {
+                  return _mainBody(state.preschool);
+                } else {
+                  return const LoadingWidget();
+                }
+              }),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _mainBody(Preschool preschool) {
+    return Column(
+      children: [
+        _locationContainer(),
+        const SizedBox(height: 16),
+        _ageContainer(),
+        const SizedBox(height: 16),
+        _currsContainer(),
+        const SizedBox(height: 16),
+        // _informationContainer(),
+        const SizedBox(height: 16),
+        Container(
+          width: 350,
+          height: 280,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: ImageGallery(
+              imageUrls: preschool.file != null && preschool.file!.isNotEmpty
+                  ? preschool.file!
+                  : ['lib/assets/images/imageHolder.jpeg'],
+            ),
+          ),
+        ),
+        _registerContactWidget(),
+      ],
     );
   }
 
@@ -134,34 +152,25 @@ class _PreschoolProfileState extends State<PreschoolProfile> {
       ),
       builder: (context) {
         return SizedBox(
-          height: 200,
+          height: 100,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                title: Row(
+                title: const Row(
                   children: [
-                    Icon(Icons.map, size: 24),
-                    const SizedBox(width: 10),
+                    Icon(
+                      Icons.pin_drop_outlined,
+                      size: 24,
+                      color: Colors.grey,
+                    ),
+                    SizedBox(width: 10),
                     Text('Google Maps'),
                   ],
                 ),
                 onTap: () {
                   openInGoogleMaps(latitude, longitude);
-                },
-              ),
-              Divider(),
-              ListTile(
-                title: Row(
-                  children: [
-                    Icon(Icons.location_on, size: 24),
-                    const SizedBox(width: 10),
-                    Text('Apple Maps'),
-                  ],
-                ),
-                onTap: () {
-                  openInAppleMap(latitude, longitude);
                 },
               ),
             ],
@@ -175,6 +184,7 @@ class _PreschoolProfileState extends State<PreschoolProfile> {
     return BlocBuilder<SearchBloc, SearchState>(
       builder: (context, state) {
         if (state is LoadedSearchIdState) {
+          _preschoolName = state.preschool.preschool_name;
           return Positioned.fill(
             child: Align(
               alignment: Alignment.center,
@@ -182,8 +192,8 @@ class _PreschoolProfileState extends State<PreschoolProfile> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const SizedBox(height: 90),
-                  const ProfilePic(
-                      imageUrl: 'lib/assets/images/imageHolder.jpeg'),
+
+                  ProfilePic(imageUrl: state.preschool.logo ?? null),
                   const SizedBox(height: 16),
                   Text(
                     state.preschool.preschool_name,
@@ -211,21 +221,24 @@ class _PreschoolProfileState extends State<PreschoolProfile> {
           // Access data from the state and use it
           return Container(
             width: 350,
-            height: 100,
+            // height: 100,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: primaryColor,
+              border: Border.all(color: primaryColor), // Border color
               borderRadius: BorderRadius.circular(12),
+            ),
+            constraints: const BoxConstraints(
+              minHeight: 100,
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(
                   Icons.location_city,
-                  color: Colors.white,
+                  color: primaryColor,
                   size: 36,
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -233,18 +246,18 @@ class _PreschoolProfileState extends State<PreschoolProfile> {
                       'Location ',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.white,
+                        color: primaryColor,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8), // TODO: fix this
                     Text(
-                      state.preschool.address!.area +
-                          " Building: " +
-                          state.preschool.address!.building,
-                      style: TextStyle(
+                      "${state.preschool.address!.area} Building: ${state.preschool.address!.building}",
+                      style: const TextStyle(
                         fontSize: 16,
-                        color: Colors.white,
+                        color: Colors.grey,
                       ),
+                      softWrap: true,
+                      maxLines: 6,
                     ),
                   ],
                 ),
@@ -259,31 +272,55 @@ class _PreschoolProfileState extends State<PreschoolProfile> {
     );
   }
 
-  //information container
-  Widget _informationContainer() {
+  Widget _ageContainer() {
     return BlocBuilder<SearchBloc, SearchState>(
       builder: (context, state) {
         if (state is LoadedSearchIdState) {
+          // Access data from the state and use it
           return Container(
             width: 350,
+            // height: 100,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: primaryColor,
+              border: Border.all(color: primaryColor), // Border color
               borderRadius: BorderRadius.circular(12),
             ),
             constraints: const BoxConstraints(
-              minHeight: 300,
+              minHeight: 100,
             ),
-            child: Text(
-              'Max Age: ${state.preschool.maximum_age}\n' +
-                  'Min Age: ${state.preschool.minimum_age}\n' +
-                  'Curriculum: ${state.preschool.curriculum ?? 'Not announced'}\n' +
-                  'Monthly Fees: ${state.preschool.monthly_fees} BHD\n' +
-                  'Contact Number: ${state.preschool.phone}\n',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.white,
-              ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.child_care_outlined,
+                  color: primaryColor,
+                  size: 36,
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Age ',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: primaryColor,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "We accept students between the ages of ${state.preschool.minimum_age} to ${state.preschool.maximum_age}",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                        ),
+                        softWrap: true, // Allow text to wrap to the next line
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           );
         } else {
@@ -294,34 +331,130 @@ class _PreschoolProfileState extends State<PreschoolProfile> {
     );
   }
 
+  Widget _currsContainer() {
+    return BlocBuilder<SearchBloc, SearchState>(
+      builder: (context, state) {
+        if (state is LoadedSearchIdState) {
+          // Access data from the state and use it
+          return Container(
+            width: 350,
+            // height: 100,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              border: Border.all(color: primaryColor), // Border color
+              borderRadius: BorderRadius.circular(12),
+            ),
+            constraints: const BoxConstraints(
+              minHeight: 100,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.my_library_books_outlined,
+                  color: primaryColor,
+                  size: 36,
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Our system ',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: primaryColor,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "Curriculum: ${state.preschool.curriculum}\nDececription: ${state.preschool.description}",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                        ),
+                        softWrap: true, // Allow text to wrap to the next line
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        } else {
+          // Handle other states or return a default widget
+          return const SizedBox.shrink();
+        }
+      },
+    );
+  }
+
+  //information container
+  // Widget _informationContainer() {
+  //   return BlocBuilder<SearchBloc, SearchState>(
+  //     builder: (context, state) {
+  //       if (state is LoadedSearchIdState) {
+  //         return Container(
+  //           width: 350,
+  //           padding: const EdgeInsets.all(16),
+  //           decoration: BoxDecoration(
+  //             border: Border.all(
+  //               color: primaryColor,
+  //             ),
+  //             borderRadius: BorderRadius.circular(12),
+  //           ),
+  //           constraints: const BoxConstraints(
+  //             minHeight: 300,
+  //           ),
+  //           child: Text(
+  //             'Max Age: ${state.preschool.maximum_age}\n' +
+  //                 'Min Age: ${state.preschool.minimum_age}\n' +
+  //                 'Curriculum: ${state.preschool.curriculum ?? 'Not announced'}\n' +
+  //                 'Registration Fees: ${state.preschool.registration_fees} BHD\n' +
+  //                 'Contact Number: ${state.preschool.phone}\n',
+  //             style: const TextStyle(
+  //               fontSize: 18,
+  //               color: Colors.grey,
+  //             ),
+  //           ),
+  //         );
+  //       } else {
+  //         // Handle other states or return a default widget
+  //         return const SizedBox.shrink();
+  //       }
+  //     },
+  //   );
+  // }
+
   Widget _profileSummary() {
     return BlocBuilder<SearchBloc, SearchState>(
       builder: (context, state) {
         if (state is LoadedSearchIdState) {
           return Container(
-            padding: const EdgeInsets.fromLTRB(30, 260, 30, 0),
+            padding: const EdgeInsets.fromLTRB(30, 290, 30, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
-                  '+${state.preschool.minimum_age}', // Example property, replace with actual property
-                  style: TextStyle(fontSize: 16),
+                  '+${state.preschool.minimum_age}',
+                  style: const TextStyle(fontSize: 16),
                 ),
-                Text(
+                const Text(
                   '|',
                   style: TextStyle(fontSize: 16, color: Colors.grey),
                 ),
                 Text(
-                  'BHD ${state.preschool.registration_fees ?? 'N/A'}',
-                  style: TextStyle(fontSize: 16),
+                  'BHD ${state.preschool.monthly_fees ?? 'N/A'}',
+                  style: const TextStyle(fontSize: 16),
                 ),
-                Text(
+                const Text(
                   '|',
                   style: TextStyle(fontSize: 16, color: Colors.grey),
                 ),
                 Text(
                   '${state.preschool.address!.area ?? 'N/A'}',
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ],
             ),
@@ -335,85 +468,91 @@ class _PreschoolProfileState extends State<PreschoolProfile> {
   }
 
   Widget _registerContactWidget() {
-  return BlocBuilder<SearchBloc, SearchState>(
-    builder: (context, state) {
-      if (state is LoadedSearchIdState) {
-        return Container(
-          height: 100,
-          width: 350,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  // Handle contact preschool button press
-                  if (state.preschool.phone != null) {
-                    print("Contact Preschool button pressed");
-                    _launchWhatsApp(state.preschool.phone! as String);
-                  } else {
-                    // Display a SnackBar if the phone number is null
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text("No phone number for this preschool"),
-                      ),
+    return BlocBuilder<SearchBloc, SearchState>(
+      builder: (context, state) {
+        if (state is LoadedSearchIdState) {
+          return Container(
+            height: 100,
+            width: 350,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    // Handle contact preschool button press
+                    if (state.preschool.phone != null) {
+                      print("Contact Preschool button pressed");
+                      _launchWhatsApp(state.preschool.phone!.toString());
+                    } else {
+                      // Display a SnackBar if the phone number is null
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("No phone number for this preschool"),
+                        ),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                    backgroundColor: secondaryColor,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 20),
+                  ),
+                  child: const Text(
+                    "Contact Preschool",
+                    style: TextStyle(
+                      fontSize: 16,
+                      // fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _preschoolName = state.preschool.preschool_name;
+                    Navigator.pushNamed(
+                      context,
+                      '/enroll',
+                      arguments: {
+                        'preschoolId': state.preschool.preschool_id,
+                        'preschoolName': state.preschool.preschool_name
+                      },
                     );
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                    backgroundColor: primaryColor,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 20),
                   ),
-                  backgroundColor: secondaryColor,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                ),
-                child: const Text(
-                  "Contact Preschool",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  // Handle register button press
-                  print("Register button pressed");
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                  backgroundColor: primaryColor,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 50, vertical: 20), // Adjust spacing here
-                ),
-                child: const Text(
-                  "Register",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
+                  child: const Text(
+                    "Register",
+                    style: TextStyle(
+                      fontSize: 16,
+                      // fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        );
-      } else {
-        // Handle other states or return a default widget
-        return const SizedBox.shrink();
-      }
-    },
-  );
-}
+              ],
+            ),
+          );
+        } else {
+          // Handle other states or return a default widget
+          return const SizedBox.shrink();
+        }
+      },
+    );
+  }
 
-
-
-
-  
   _launchWhatsApp(String preschoolWhatsAppNumber) async {
     final urlWhatsApp = "https://wa.me/$preschoolWhatsAppNumber";
+    print(urlWhatsApp);
     _launchMapUrl(Uri.parse(urlWhatsApp));
   }
 
@@ -421,11 +560,6 @@ class _PreschoolProfileState extends State<PreschoolProfile> {
     final googleMapsUrl =
         'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
     _launchMapUrl(Uri.parse(googleMapsUrl));
-  }
-
-  void openInAppleMap(double latitude, double longitude) {
-    final appleMapsURL = 'https://maps.apple.com/?q=$latitude,$longitude';
-    _launchMapUrl(Uri.parse(appleMapsURL));
   }
 
   void _launchMapUrl(Uri url) async {

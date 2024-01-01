@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import 'User.dart';
+import '../../../register/domain/entity/User.dart';
 
 class Login extends Equatable {
   final String message;

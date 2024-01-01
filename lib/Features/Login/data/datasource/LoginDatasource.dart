@@ -1,6 +1,10 @@
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../core/.env';
 import '../../../../core/error/Exception.dart';
+import '../../../../framework/shared_prefrences/UserPreferences.dart';
 import '../model/loginModel.dart';
 import 'package:http/http.dart' as http;
 
@@ -8,7 +12,7 @@ abstract class LoginDataSource {
   Future<LoginModel> login(String email, String password);
 }
 
-const BASE_URL = "http://localhost:3000/users/";
+// const BASE_URL = "http://localhost:3000/users/";
 
 class LoginDataSourceImp implements LoginDataSource {
   final http.Client client;
@@ -19,7 +23,7 @@ class LoginDataSourceImp implements LoginDataSource {
   Future<LoginModel> login(String email, String password) async {
     try {
       final response = await client.post(
-        Uri.parse(BASE_URL + "login"),
+        Uri.parse(BASE_URL + "users/login"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({"email": email, "password": password}),
       );
@@ -35,6 +39,8 @@ class LoginDataSourceImp implements LoginDataSource {
         final LoginModel loginModel = LoginModel.fromJson(decodedJson);
 
         print("Login successful");
+        // Save user ID in shared preferences
+       await UserPreferences.saveUserId(loginModel.user.id);
 
         return loginModel;
       } else {
@@ -45,4 +51,8 @@ class LoginDataSourceImp implements LoginDataSource {
       throw error;
     }
   }
+
+
+
+
 }

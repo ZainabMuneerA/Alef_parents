@@ -1,5 +1,7 @@
 import 'package:alef_parents/Features/find_preschool/domain/entity/preschool.dart';
 import 'package:alef_parents/Features/find_preschool/domain/usecases/get_preschool_by_id.dart';
+import 'package:alef_parents/Features/find_preschool/domain/usecases/get_preschool_grade.dart';
+import 'package:alef_parents/Features/find_preschool/domain/usecases/get_recommended_preschool.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
@@ -13,10 +15,14 @@ part 'search_state.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final GetPreschoolByIdUseCase getPreschoolById;
   final GetPreschoolByNameUseCase getPreschoolByName;
+  final GetRecommendedPreschoolUseCase getRecommendedPreschool;
+  final GetPreschoolGrades getPreschoolGrades;
 
   SearchBloc({
     required this.getPreschoolById,
     required this.getPreschoolByName,
+    required this.getRecommendedPreschool,
+    required this.getPreschoolGrades,
   }) : super(SearchInitial()) {
     on<SearchEvent>((event, emit) async {
       if (event is GetPreschoolByIdEvent) {
@@ -33,11 +39,36 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           emit(ErrorSearchState(message: "An Error Occurred"));
         }
       }
+      if (event is GetRecommendedPreschoolEvent) {
+        emit(LoadingSearchState());
+
+        try {
+          final failureOrPreschool = await getRecommendedPreschool();
+          print('getAllPreschool result: $failureOrPreschool');
+
+          emit(_mapFailureOrPreschoolToState(failureOrPreschool));
+        } catch (e) {
+          print("Found an error: $e");
+          emit(ErrorSearchState(message: "An Error Occurred"));
+        }
+      }
+       if (event is GetPreschoolGradesEvent) {
+        emit(LoadingSearchState());
+
+        try {
+          final failureOGrade = await getPreschoolGrades(event.id);
+
+          emit(_mapFailureOrGradesToState(failureOGrade));
+        } catch (e) {
+          emit(ErrorSearchState(message: "An Error Occurred"));
+        }
+      }
       if (event is GetPreschoolByNameEvent) {
         emit(LoadingSearchState());
 
         try {
-          final failureOrPreschool = await getPreschoolByName(event.name, event.age, event.area, event.longitude, event.latitude);
+          final failureOrPreschool = await getPreschoolByName(event.name,
+              event.age, event.area, event.longitude, event.latitude);
           // Debug statement to indicate the result of the get Preschool(id) function
           print('getAllPreschool result: $failureOrPreschool');
 
@@ -47,8 +78,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           emit(ErrorSearchState(message: "An Error Occurred"));
         }
       }
-
-      
     });
   }
 
@@ -61,16 +90,24 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   // }
 
   SearchState _mapFailureOrPreschoolToState(
-  Either<Failure, List<Preschool>> either,
-) {
-  return either.fold(
-    (failure) => ErrorSearchState(message: _mapFailureToMessage(failure)),
-    (preschoolList) => LoadedSearchState(preschool: preschoolList),
-  );
-}
+    Either<Failure, List<Preschool>> either,
+  ) {
+    return either.fold(
+      (failure) => ErrorSearchState(message: _mapFailureToMessage(failure)),
+      (preschoolList) => LoadedSearchState(preschool: preschoolList),
+    );
+  }
 
+  SearchState _mapFailureOrGradesToState(
+    Either<Failure, List<String>> either,
+  ) {
+    return either.fold(
+      (failure) => ErrorSearchState(message: _mapFailureToMessage(failure)),
+      (grades) => LoadedGradesState(grades: grades),
+    );
+  }
 
-   SearchState _mapFailureOrPreschoolIDToState(
+  SearchState _mapFailureOrPreschoolIDToState(
     Either<Failure, Preschool> either,
   ) {
     return either.fold(

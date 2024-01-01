@@ -5,7 +5,7 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class ImageGallery extends StatelessWidget {
-  final List<String> imageUrls;
+  final List<String>? imageUrls;
 
   ImageGallery({required this.imageUrls});
 
@@ -15,10 +15,16 @@ class ImageGallery extends StatelessWidget {
       body: ClipRRect(
         borderRadius: BorderRadius.circular(16), 
         child: PhotoViewGallery.builder(
-          itemCount: imageUrls.length,
+          itemCount: imageUrls?.length ?? 0,
           builder: (context, index) {
+               final imageUrl = imageUrls?[index] ?? 'lib/assets/images/imageHolder.jpeg';
+            final imageProvider = imageUrl.startsWith('http')
+                ? NetworkImage(imageUrl)
+                : AssetImage(imageUrl) as ImageProvider<Object>;
+
             return PhotoViewGalleryPageOptions(
-              imageProvider: AssetImage(imageUrls[index]),
+              imageProvider: imageProvider,
+             
               minScale: PhotoViewComputedScale.contained,
               maxScale: PhotoViewComputedScale.covered * 2,
             );

@@ -1,12 +1,15 @@
 import 'package:alef_parents/Features/Login/presentation/Bloc/bloc/login_bloc.dart';
+import 'package:alef_parents/core/widget/reuseable_input.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:alef_parents/injection_container.dart' as di;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/app_theme.dart';
 import '../../../../core/shared/Navigation/presentation/widget/AppNavigationBar.dart';
 import '../../../../core/shared/Navigation/presentation/widget/ArchWidget.dart';
-import '../widget/EmailInputFb2.dart';
-import '../widget/PasswordInputFB2.dart';
+import '../../../../framework/services/auth/auth.dart';
+import '../../../../generated/l10n.dart';
+import '../widget/googleBtn.dart';
 
 // class LoginPage extends StatefulWidget {
 //   const LoginPage({Key? key}) : super(key: key);
@@ -136,7 +139,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
+  String? loginError;
+  Auth auth = Auth();
   @override
   void dispose() {
     _emailController.dispose();
@@ -144,27 +148,38 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  void _login() {
+  void _login() async {
     String email = _emailController.text;
     String password = _passwordController.text;
+    if (email.isNotEmpty && password.isNotEmpty) {
+      try {
+        String? errorMessage =
+            await auth.signInWithEmailAndPassword(email, password);
 
-    // Use dependency injection to get the LoginBloc
-    LoginBloc loginBloc = di.sl<LoginBloc>();
-
-    // Dispatch the login event to the existing bloc
-    loginBloc.add(LogUserEvent(email, password));
+        if (errorMessage != null) {
+          setState(() {
+            loginError = errorMessage;
+          });
+        } else {
+          // Login successful, navigate to home page
+          Navigator.pushReplacementNamed(context, '/home');
+        }
+      } catch (error) {
+        // Handle other errors
+        print("Error during login: $error");
+      }
+    } else {
+      setState(() {
+        loginError = "Please fill in the required fields";
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<LoginBloc>(
-          create: (_) => di.sl<LoginBloc>(),
-        ),
-      ],
-      child: Scaffold(
-        body: Stack(
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Stack(
           children: [
             ClipPath(
               clipper: ArchClipper(),
@@ -174,83 +189,96 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.fromLTRB(16, 200, 16, 16),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Login',
-                    style: TextStyle(
+                    S.of(context).login,
+                    style: const TextStyle(
                       fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                      // fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
                   ),
-                  SizedBox(height: 16.0),
-                  EmailInputFb2(inputController: _emailController),
-                  SizedBox(height: 16.0),
-                  PasswordInputFb2(inputController: _passwordController),
-                  SizedBox(height: 24.0),
+                  const SizedBox(height: 16.0),
+                  if (loginError != null && loginError!.isNotEmpty)
+                    Text(loginError!,
+                        style: TextStyle(
+                          color: secondaryColor,
+                          fontSize: 16.0,
+                        )),
+                  ReusableInputField(
+                    inputController: _emailController,
+                    label: S.of(context).email,
+                  ),
+                  const SizedBox(height: 16.0),
+                  ReusableInputField(
+                    inputController: _passwordController,
+                    label: S.of(context).password,
+                    isPassword: true,
+                  ),
+                  const SizedBox(height: 24.0),
                   Text.rich(
                     TextSpan(
-                      text: "Don't have an account? ",
-                      style: TextStyle(
+                      text: S.of(context).no_account,
+                      style: const TextStyle(
                         color: Colors.black,
                       ),
                       children: [
                         TextSpan(
-                          text: 'Register now',
+                          text: S.of(context).register,
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                            // fontWeight: FontWeight.bold,
                             color: primaryColor,
+                            decoration: TextDecoration.underline,
                           ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.pushNamed(context, '/register');
+                            },
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 24.0),
-                  BlocBuilder<LoginBloc, LoginState>(
-                    builder: (context, state) {
-                      // Handle different states and perform actions accordingly
-                      if (state is LoadingLoginState) {
-                        // Show loading indicator
-                        return CircularProgressIndicator();
-                      } else if (state is LoadedLoginState) {
-                        // Do something on successful login
-                        // For example, navigate to the next screen
-                        print("logedddd in");
-                      } else if (state is ErrorLoginState) {
-                        // Handle login failure, show error message, etc.
-                        return Text('Login failed: ${state.message}');
-                      }
-
-                     
-                      return SizedBox(
-                        width: 174,
-                        height: 61,
-                        child: ElevatedButton(
-                          onPressed: _login,
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16.0),
-                              ),
-                            ),
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(primaryColor),
+                  const SizedBox(height: 24.0),
+                  SizedBox(
+                    width: 330,
+                    height: 61,
+                    child: ElevatedButton(
+                      onPressed: _login,
+                      style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
                           ),
                         ),
-                      );
-                    },
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(primaryColor),
+                      ),
+                      child: Text(
+                        S.of(context).login,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
+                  // GoogleBtn(
+                  //   onPressed: () {
+                  //     auth.signInWithGoogle().then((userCredential) {
+                  //       // Handle successful login here
+                  //       // Navigate to the home page using the named route
+                  //       Navigator.pushReplacementNamed(context, '/home');
+                  //     }).catchError((error) {
+                  //       // Handle errors if needed
+                  //       print("Error during Google sign-in: $error");
+                  //     });
+                  //   },
+                  // ),
                 ],
               ),
             ),

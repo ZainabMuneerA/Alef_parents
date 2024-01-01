@@ -17,6 +17,12 @@ class LoadedSearchState extends SearchState {
   LoadedSearchState({required this.preschool});
 
 }
+class LoadedGradesState extends SearchState {
+  final List<String>  grades;
+
+  LoadedGradesState({required this.grades});
+
+}
 class LoadedSearchIdState extends SearchState {
   final Preschool  preschool;
 

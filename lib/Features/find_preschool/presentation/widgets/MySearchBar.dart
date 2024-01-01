@@ -53,7 +53,7 @@ class _MySearchBarState extends State<MySearchBar> {
 
     // Define custom InputBorder
     final OutlineInputBorder focusedBorder = OutlineInputBorder(
-      borderSide: BorderSide(
+      borderSide: const BorderSide(
         color: Colors.transparent, // Set the color to transparent
         width: 0, // Set the width to 0
       ),
@@ -76,14 +76,12 @@ class _MySearchBarState extends State<MySearchBar> {
               focusNode: _searchFocusNode,
               decoration: InputDecoration(
                 hintText:
-                    S.of(context).search_hint, //'Search a preschool', // ""
+                    S.of(context).search_hint, 
                 border: InputBorder.none,
-                focusedBorder: focusedBorder, // Apply the custom focused border
+                focusedBorder: focusedBorder,
               ),
               onChanged: (value) {
-                // Perform search operation based on the value entered in the TextField
-                // You can define your own search logic here
-                print('Search query: $value');
+                
               },
               onEditingComplete: _handleSearch,
             ),

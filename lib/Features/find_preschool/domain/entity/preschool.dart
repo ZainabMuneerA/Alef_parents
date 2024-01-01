@@ -6,7 +6,7 @@ class Preschool extends Equatable {
 //attrubites that i need
   final int preschool_id;
   final String preschool_name;
-  final int? phone;
+  final String? phone;
   final String? description;
   final int registration_fees;
   final int monthly_fees;
@@ -14,7 +14,8 @@ class Preschool extends Equatable {
   final int minimum_age;
   final int maximum_age;
   final AddressModel? address;
-
+  final String? logo;
+  final List<String>? file;
 
   Preschool(
       {required this.preschool_id,
@@ -26,7 +27,9 @@ class Preschool extends Equatable {
       this.curriculum,
       required this.minimum_age,
       required this.maximum_age,
-      this.address
+      this.address,
+      this.logo,
+      this.file,
       });
 
   @override
@@ -40,6 +43,8 @@ class Preschool extends Equatable {
         curriculum,
         minimum_age,
         maximum_age,
-        address
+        address,
+        logo,
+        file
       ];
 }

@@ -1,7 +1,7 @@
 import 'package:alef_parents/Features/Login/domain/entity/login.dart';
 
 
-import '../../domain/entity/User.dart';
+import '../../../register/domain/entity/User.dart';
 
 
 class LoginModel extends Login {

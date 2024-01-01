@@ -23,7 +23,7 @@ class EmailInputFb2 extends StatelessWidget {
           "Email",
           style: TextStyle(
             fontSize: 14,
-            fontWeight: FontWeight.normal,
+            fontWeight: FontWeight.w100,
             color: Colors.white.withOpacity(.9),
           ),
         ),

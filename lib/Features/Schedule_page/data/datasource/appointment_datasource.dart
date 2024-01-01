@@ -6,6 +6,7 @@ import 'package:alef_parents/Features/Schedule_page/domain/entity/appointment_re
 import 'package:alef_parents/Features/Schedule_page/domain/entity/available_slots.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../../core/.env';
 import '../../../../core/error/Exception.dart';
 import '../../../../core/error/Failure.dart';
 
@@ -14,7 +15,7 @@ abstract class AppointmentDataSource {
   Future<AvailableSlots> availableSlots(int preschoolId, String date);
 }
 
-const BASE_URL = "http://localhost:3000/appointments/";
+// const BASE_URL = "http://localhost:3000/appointments/";
 
 class AppointmentDataSourceImp implements AppointmentDataSource {
   final http.Client client;
@@ -24,15 +25,13 @@ class AppointmentDataSourceImp implements AppointmentDataSource {
   @override
   Future<ScheduledModel> schedule(AppointmentRequest appointmentRequest) async {
     try {
+      print(json.encode(appointmentRequest.toJson()));
       final response = await client.post(
-        Uri.parse(BASE_URL),
+        Uri.parse("${BASE_URL}appointments/"),
         headers: {"Content-Type": "application/json"},
         body: json.encode(appointmentRequest.toJson()),
       );
 
-      print("${BASE_URL}");
-      print("Response status code: ${response.statusCode}");
-      print("Response body: ${response.body}");
 
       if (response.statusCode == 201) {
         // Decode the JSON body response
@@ -58,10 +57,11 @@ class AppointmentDataSourceImp implements AppointmentDataSource {
     //availableSlots?preschool=1&date=2023-12-04
     try {
       final response = await client.get(
-        Uri.parse('$BASE_URL/availableSlots?preschool=$preschoolId&date=$date'),
+        Uri.parse(
+            '${BASE_URL}appointments/availableSlots?preschool=$preschoolId&date=$date'),
         headers: {"Content-Type": "application/json"},
       );
-      print("${BASE_URL}");
+      print("${BASE_URL}availableSlots?preschool=$preschoolId&date=$date");
       print("Response status code: ${response.statusCode}");
       print("Response body: ${response.body}");
 
@@ -80,7 +80,7 @@ class AppointmentDataSourceImp implements AppointmentDataSource {
         final decodedJson = json.decode(response.body);
         final errorMessage = decodedJson["message"] ?? "Server error";
         throw ServerFailure(message: errorMessage);
-      } 
+      }
     } catch (error) {
       print("Error during getting timex: $error");
       throw error;

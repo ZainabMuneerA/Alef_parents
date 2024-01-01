@@ -5,22 +5,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/widget/loading_widget.dart';
 import '../../domain/entity/preschool.dart';
-import '../bloc/prschool/search/search_bloc.dart';
-import '../pages/PreschoolPage.dart';
+// import '../pages/PreschoolPage.dart';
 import 'message_display.dart';
 
 class PreschoolList extends StatelessWidget {
   final String title;
   final String subtitle;
   final String price;
-  final String imageUrl;
+  final String? imageUrl;
 
   const PreschoolList({
     Key? key,
     required this.title,
     required this.subtitle,
     required this.price,
-    required this.imageUrl,
+     this.imageUrl,
   }) : super(key: key);
 
   @override
@@ -35,7 +34,7 @@ class PreschoolList extends StatelessWidget {
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
             blurRadius: 17.5,
-            offset: Offset(0, 20),
+            offset: const Offset(0, 20),
           ),
         ],
       ),
@@ -49,13 +48,18 @@ class PreschoolList extends StatelessWidget {
               height: 90,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.asset(
-                  imageUrl,
-                  fit: BoxFit.cover,
-                ),
+                child: imageUrl !=null && imageUrl!.isNotEmpty 
+                    ? Image.network(
+                        imageUrl!,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(
+                        'lib/assets/images/imageHolder.jpeg',
+                        fit: BoxFit.cover,
+                      ),
               ),
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -63,15 +67,15 @@ class PreschoolList extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                      // fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Text(
                     subtitle,
-                    style: TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 14),
                   ),
                 ],
               ),
@@ -80,15 +84,15 @@ class PreschoolList extends StatelessWidget {
               alignment: Alignment.center,
               child: Row(
                 children: [
-                  SizedBox(width: 10),
-                  Text(
+                  const SizedBox(width: 10),
+                  const Text(
                     'BHD',
                     style: TextStyle(fontSize: 14),
                   ),
-                  SizedBox(width: 5),
+                  const SizedBox(width: 5),
                   Text(
                     price,
-                    style: TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 14),
                   ),
                 ],
               ),
@@ -100,133 +104,33 @@ class PreschoolList extends StatelessWidget {
   }
 }
 
-// class PreschoolListScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         SizedBox(height: 20),
-//         PreschoolList(
-//           title: 'Preschool Name',
-//           subtitle: 'Preschool Description',
-//           price: '300',
-//           imageUrl: 'lib/assets/images/imageHolder.jpeg',
-//         ),
-//         SizedBox(height: 20),
-//         PreschoolList(
-//           title: 'Preschool Name',
-//           subtitle: 'Preschool Description',
-//           price: '300',
-//           imageUrl: 'lib/assets/images/imageHolder.jpeg',
-//         ),
-//         SizedBox(height: 20),
-//         PreschoolList(
-//           title: 'Preschool Name',
-//           subtitle: 'Preschool Description',
-//           price: '300',
-//           imageUrl: 'lib/assets/images/imageHolder.jpeg',
-//         )
-//       ],
-//     );
-//   }
-// }
-
-// class PreschoolListScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         BlocBuilder<PreschoolBloc, PreschoolState>(
-//           builder: (context, state) {
-//             if (state is LoadingPreschoolState) {
-//               print("this is the state: $state");
-//               return LoadingWidget();
-//             } else if (state is LoadedPreschoolState) {
-//               return preschoolListing(state.preschool);
-//             } else if (state is ErrorPreschoolState) {
-//               return MessageDisplayWidget(message: state.message);
-//             } else if (state is PreschoolInitial) {
-//               // Handle the initial state if needed
-//               print(state);
-//               return LoadingWidget();
-//             }
-//             print("State type: ${state.runtimeType}");
-//             return LoadingWidget();
-//           },
-//         ),
-//       ],
-//     );
-//   }
-
-  // Widget preschoolListing(List<Preschool> preschools) {
-  //   return Container(
-  //     height: 300, // Specify a height for the ListView
-  //     child: ListView.builder(
-  //       itemCount: preschools.length,
-  //       itemBuilder: (context, index) {
-  //         final preschool = preschools[index];
-  //         return PreschoolList(
-  //           title: preschool.preschool_name,
-  //           subtitle: preschool.preschool_name,
-  //           price: preschool.monthly_fees.toString(),
-  //           imageUrl: 'lib/assets/images/imageHolder.jpeg',
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }
-// }
-
-// class PreschoolListing extends StatelessWidget {
-//   final List<Preschool> preschools;
-
-//   PreschoolListing({required this.preschools});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: preschools.map((preschool) {
-//         return Padding(
-//           padding: EdgeInsets.only(bottom: 16), 
-//           child: PreschoolList(
-//             title: preschool.preschool_name,
-//             subtitle: preschool.address!.area,
-//             price: preschool.monthly_fees.toString(),
-//             imageUrl: 'lib/assets/images/imageHolder.jpeg',
-//           ),
-//         );
-//       }).toList(),
-//     );
-//   }
-// }
-
 
 class PreschoolListing extends StatelessWidget {
   final List<Preschool> preschools;
 
   PreschoolListing({required this.preschools});
 
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: preschools.map((preschool) {
         return Padding(
-          padding: EdgeInsets.only(bottom: 16), 
+          padding: const EdgeInsets.only(bottom: 16),
           child: GestureDetector(
             onTap: () {
-              // Navigate to PreschoolProfile and pass the preschool_id
-              Navigator.push(
+              // Navigate to PreschoolProfile using the named route and pass the preschool_id
+              Navigator.pushNamed(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => PreschoolProfile(preschoolId: preschool.preschool_id),
-                ),
+                '/preschool-profile',
+                arguments: {'preschoolId': preschool.preschool_id},
               );
             },
             child: PreschoolList(
               title: preschool.preschool_name,
               subtitle: preschool.address!.area,
               price: preschool.monthly_fees.toString(),
-              imageUrl: 'lib/assets/images/imageHolder.jpeg',
+              imageUrl: preschool.logo,
             ),
           ),
         );
@@ -235,7 +139,6 @@ class PreschoolListing extends StatelessWidget {
   }
 }
 
-
 class PreschoolListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -243,16 +146,17 @@ class PreschoolListScreen extends StatelessWidget {
       children: [
         BlocBuilder<PreschoolBloc, PreschoolState>(
           builder: (context, state) {
+            print(state);
             if (state is LoadingPreschoolState) {
-              return LoadingWidget();
+              return const LoadingWidget();
             } else if (state is LoadedPreschoolState) {
               return PreschoolListing(preschools: state.preschool);
             } else if (state is ErrorPreschoolState) {
               return MessageDisplayWidget(message: state.message);
             } else if (state is PreschoolInitial) {
-              return LoadingWidget();
+              return const LoadingWidget();
             }
-            return LoadingWidget();
+            return const LoadingWidget();
           },
         ),
       ],

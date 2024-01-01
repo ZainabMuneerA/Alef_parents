@@ -11,7 +11,11 @@ class GetPreschoolByNameUseCase {
 
   GetPreschoolByNameUseCase({required this.repository});
 
-  Future<Either<Failure, List<Preschool>>> call(String name) async {
-    return repository.getPreschoolByName(name);
+  Future<Either<Failure, List<Preschool>>> call(String? name,
+  int? age,
+  String? area,
+  double? latitude,
+  double? longitude,) async {
+    return repository.getPreschoolByName(name, age, area, latitude, longitude);
   }
 }
