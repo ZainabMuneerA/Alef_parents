@@ -21,5 +21,33 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{};
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "about_alef": MessageLookupByLibrary.simpleMessage(
+            "The Alef app is a dedicated platform designed to empower parents in their quest for the perfect preschool for their children. Tailored to streamline the often intricate process of preschool selection and enrollment, Alef offers a user-friendly interface that allows parents to explore various preschool options effortlessly. With a comprehensive database of preschools, Alef provides detailed information, including facilities, programs, and user reviews, enabling parents to make informed decisions. The app\'s intuitive features guide parents through the enrollment process, ensuring a seamless and efficient registration experience. Alef stands as a trusted companion for parents, simplifying the journey of finding and securing the ideal preschool for their little ones."),
+        "about_us": MessageLookupByLibrary.simpleMessage("About Us"),
+        "confirm_password":
+            MessageLookupByLibrary.simpleMessage("Confirm Password"),
+        "contact_us": MessageLookupByLibrary.simpleMessage("Contact Us"),
+        "current_lang":
+            MessageLookupByLibrary.simpleMessage("Current Language"),
+        "email": MessageLookupByLibrary.simpleMessage("Email"),
+        "home": MessageLookupByLibrary.simpleMessage("Home"),
+        "home_sub_title": MessageLookupByLibrary.simpleMessage("Preschools"),
+        "home_title": MessageLookupByLibrary.simpleMessage("Recommended"),
+        "log_out": MessageLookupByLibrary.simpleMessage("Log Out"),
+        "login": MessageLookupByLibrary.simpleMessage("Login"),
+        "name": MessageLookupByLibrary.simpleMessage("Name"),
+        "no_account":
+            MessageLookupByLibrary.simpleMessage("Don\'t have an account? "),
+        "notification": MessageLookupByLibrary.simpleMessage("Notifications"),
+        "password": MessageLookupByLibrary.simpleMessage("Password"),
+        "preschool": MessageLookupByLibrary.simpleMessage("preschool"),
+        "profile": MessageLookupByLibrary.simpleMessage("Profile"),
+        "register": MessageLookupByLibrary.simpleMessage("Register"),
+        "search": MessageLookupByLibrary.simpleMessage("Search"),
+        "search_hint":
+            MessageLookupByLibrary.simpleMessage("Search a Preschool"),
+        "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "yes_account": MessageLookupByLibrary.simpleMessage("Have an account? ")
+      };
 }

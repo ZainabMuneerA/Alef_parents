@@ -1,0 +1,1523 @@
+@startuml
+set namespaceSeparator ::
+
+class "alef_parents::generated::intl::messages_ar.dart::MessageLookup" {
+  +Map<String, dynamic> messages
+  +String localeName
+  {static} -Map<String, Function> _notInlinedMessages()
+}
+
+"intl::message_lookup_by_library.dart::MessageLookupByLibrary" <|-- "alef_parents::generated::intl::messages_ar.dart::MessageLookup"
+
+class "alef_parents::generated::intl::messages_en.dart::MessageLookup" {
+  +Map<String, dynamic> messages
+  +String localeName
+  {static} -Map<String, Function> _notInlinedMessages()
+}
+
+"intl::message_lookup_by_library.dart::MessageLookupByLibrary" <|-- "alef_parents::generated::intl::messages_en.dart::MessageLookup"
+
+class "alef_parents::generated::l10n.dart::S" {
+  {static} -S? _current
+  {static} +AppLocalizationDelegate delegate
+  {static} +S current
+  +String search_hint
+  +String home_title
+  +String home_sub_title
+  +String home
+  +String search
+  +String profile
+  +String preschool
+  +String register
+  +String email
+  +String password
+  +String confirm_password
+  +String no_account
+  +String yes_account
+  +String login
+  +String notification
+  +String current_lang
+  +String about_us
+  +String contact_us
+  +String name
+  {static} +dynamic load()
+  {static} +S of()
+  {static} +S? maybeOf()
+}
+
+"alef_parents::generated::l10n.dart::S" o-- "alef_parents::generated::l10n.dart::S"
+"alef_parents::generated::l10n.dart::S" o-- "alef_parents::generated::l10n.dart::AppLocalizationDelegate"
+
+class "alef_parents::generated::l10n.dart::AppLocalizationDelegate" {
+  +List<Locale> supportedLocales
+  +bool isSupported()
+  +dynamic load()
+  +bool shouldReload()
+  -bool _isSupported()
+}
+
+"flutter::src::widgets::localizations.dart::LocalizationsDelegate" <|-- "alef_parents::generated::l10n.dart::AppLocalizationDelegate"
+
+class "alef_parents::core::widget::reuseable_input.dart::ReusableInputField" {
+  +String label
+  +TextEditingController inputController
+  +TextInputType keyboardType
+  +String hintText
+  +bool isNumeric
+  +bool isMultiline
+  +bool isPassword
+  {static} +Color primaryColor
+  {static} +Color secondaryColor
+  {static} +Color accentColor
+  {static} +Color errorColor
+  +Widget build()
+  +Widget buildMultilineTextField()
+}
+
+"alef_parents::core::widget::reuseable_input.dart::ReusableInputField" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"alef_parents::core::widget::reuseable_input.dart::ReusableInputField" o-- "flutter::src::services::text_input.dart::TextInputType"
+"alef_parents::core::widget::reuseable_input.dart::ReusableInputField" o-- "dart::ui::Color"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::core::widget::reuseable_input.dart::ReusableInputField"
+
+class "alef_parents::core::widget::reuseable_input.dart::FloatingLabelTextField" {
+  +String? hintText
+  +TextEditingController inputController
+  +_FloatingLabelTextFieldState createState()
+}
+
+"alef_parents::core::widget::reuseable_input.dart::FloatingLabelTextField" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::core::widget::reuseable_input.dart::FloatingLabelTextField"
+
+class "alef_parents::core::widget::reuseable_input.dart::_FloatingLabelTextFieldState" {
+  -bool _isFocused
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::core::widget::reuseable_input.dart::_FloatingLabelTextFieldState"
+
+class "alef_parents::core::widget::app_bar.dart::AppBarWidget" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::core::widget::app_bar.dart::AppBarWidget"
+
+class "alef_parents::core::widget::loading_widget.dart::LoadingWidget" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::core::widget::loading_widget.dart::LoadingWidget"
+
+class "alef_parents::core::widget::profilePic.dart::ProfilePic" {
+  +String imageUrl
+  +double radius
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::core::widget::profilePic.dart::ProfilePic"
+
+abstract class "alef_parents::core::Network::network_info.dart::NetworkInfo" {
+  +dynamic isConnected
+}
+
+class "alef_parents::core::Network::network_info.dart::NetworkInfoImp" {
+  +InternetConnectionChecker connectionChecker
+  +dynamic isConnected
+}
+
+"alef_parents::core::Network::network_info.dart::NetworkInfoImp" o-- "internet_connection_checker::internet_connection_checker.dart::InternetConnectionChecker"
+"alef_parents::core::Network::network_info.dart::NetworkInfo" <|-- "alef_parents::core::Network::network_info.dart::NetworkInfoImp"
+
+class "alef_parents::core::shared::Navigation::presentation::widget::AppNavigationBar.dart::AppNavigationBar" {
+  +int selectedIndex
+  +dynamic Function(int) onItemTapped
+  +_AppNavigationBarState createState()
+}
+
+"alef_parents::core::shared::Navigation::presentation::widget::AppNavigationBar.dart::AppNavigationBar" o-- "null::dynamic Function(int)"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::core::shared::Navigation::presentation::widget::AppNavigationBar.dart::AppNavigationBar"
+
+class "alef_parents::core::shared::Navigation::presentation::widget::AppNavigationBar.dart::_AppNavigationBarState" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::core::shared::Navigation::presentation::widget::AppNavigationBar.dart::_AppNavigationBarState"
+
+class "alef_parents::core::shared::Navigation::presentation::widget::AppNavigationBar.dart::IconBottomBar" {
+  +String text
+  +IconData icon
+  +bool selected
+  +dynamic Function() onPressed
+  +Widget build()
+}
+
+"alef_parents::core::shared::Navigation::presentation::widget::AppNavigationBar.dart::IconBottomBar" o-- "flutter::src::widgets::icon_data.dart::IconData"
+"alef_parents::core::shared::Navigation::presentation::widget::AppNavigationBar.dart::IconBottomBar" o-- "null::dynamic Function()"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::core::shared::Navigation::presentation::widget::AppNavigationBar.dart::IconBottomBar"
+
+class "alef_parents::core::shared::Navigation::presentation::widget::ArchWidget.dart::ArchClipper" {
+  +Path getClip()
+  +bool shouldReclip()
+}
+
+"flutter::src::rendering::proxy_box.dart::CustomClipper" <|-- "alef_parents::core::shared::Navigation::presentation::widget::ArchWidget.dart::ArchClipper"
+
+abstract class "alef_parents::core::error::Failure.dart::Failure" {
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::core::error::Failure.dart::Failure"
+
+class "alef_parents::core::error::Failure.dart::OfflineFailure" {
+  +List<Object?> props
+}
+
+"alef_parents::core::error::Failure.dart::Failure" <|-- "alef_parents::core::error::Failure.dart::OfflineFailure"
+
+class "alef_parents::core::error::Failure.dart::ServerFailure" {
+  +List<Object?> props
+}
+
+"alef_parents::core::error::Failure.dart::Failure" <|-- "alef_parents::core::error::Failure.dart::ServerFailure"
+
+class "alef_parents::core::error::Failure.dart::EmptyCacheFailure" {
+  +List<Object?> props
+}
+
+"alef_parents::core::error::Failure.dart::Failure" <|-- "alef_parents::core::error::Failure.dart::EmptyCacheFailure"
+
+class "alef_parents::core::error::Exception.dart::ServerException" {
+}
+
+"dart::core::Exception" <|-- "alef_parents::core::error::Exception.dart::ServerException"
+
+class "alef_parents::core::error::Exception.dart::OfflineException" {
+}
+
+"dart::core::Exception" <|-- "alef_parents::core::error::Exception.dart::OfflineException"
+
+class "alef_parents::core::error::Exception.dart::EmptyCacheException" {
+}
+
+"dart::core::Exception" <|-- "alef_parents::core::error::Exception.dart::EmptyCacheException"
+
+class "alef_parents::framework::shared_prefrences::UserPreferences.dart::UserPreferences" {
+  {static} +dynamic getUserId()
+  {static} +dynamic saveUserId()
+  {static} +dynamic saveUsername()
+  {static} +dynamic getUsername()
+}
+
+class "alef_parents::framework::Permissions::permission_manager.dart::PermissionManager" {
+  {static} -PermissionManager _instance
+  +dynamic requestCameraPermission()
+  +dynamic hasCameraPermission()
+  +dynamic requestPhotoPermission()
+  +dynamic hasPhotoPermission()
+  +dynamic requestLocationPermission()
+  +dynamic hasLocationPermission()
+  +dynamic openPhotoApp()
+  +dynamic openCameraApp()
+}
+
+"alef_parents::framework::Permissions::permission_manager.dart::PermissionManager" o-- "alef_parents::framework::Permissions::permission_manager.dart::PermissionManager"
+
+class "alef_parents::framework::services::auth::auth.dart::Auth" {
+  +FlutterSecureStorage secureStorage
+  +dynamic createUserWithEmailAndPassword()
+  +dynamic signInWithEmailAndPassword()
+  +dynamic signOut()
+  +dynamic signInWithGoogle()
+}
+
+"alef_parents::framework::services::auth::auth.dart::Auth" o-- "flutter_secure_storage::flutter_secure_storage.dart::FlutterSecureStorage"
+
+class "alef_parents::framework::services::Debouncer.dart::Debouncer" {
+  +int milliseconds
+  +void Function() action
+  -Timer? _timer
+  +dynamic run()
+}
+
+"alef_parents::framework::services::Debouncer.dart::Debouncer" o-- "dart::ui::void Function()"
+"alef_parents::framework::services::Debouncer.dart::Debouncer" o-- "dart::async::Timer"
+
+class "alef_parents::framework::services::notifications::notifications.dart::Notifications" {
+  -FirebaseMessaging _firebaseMessaging
+  +dynamic initiNorification()
+  +void handleMessage()
+  +dynamic initPushNotification()
+}
+
+"alef_parents::framework::services::notifications::notifications.dart::Notifications" o-- "firebase_messaging::firebase_messaging.dart::FirebaseMessaging"
+
+abstract class "alef_parents::Features::enroll_student::data::datasource::ApplicationRemoteData.dart::ApplicationRemoteData" {
+  +dynamic getAllApplication()
+  +dynamic enrollStudent()
+}
+
+class "alef_parents::Features::enroll_student::data::datasource::ApplicationRemoteData.dart::ApplicationDioDataImp" {
+  -Dio _dio
+  +dynamic enrollStudent()
+  +dynamic getAllApplication()
+}
+
+"alef_parents::Features::enroll_student::data::datasource::ApplicationRemoteData.dart::ApplicationDioDataImp" o-- "dio::src::dio.dart::Dio"
+"alef_parents::Features::enroll_student::data::datasource::ApplicationRemoteData.dart::ApplicationRemoteData" <|-- "alef_parents::Features::enroll_student::data::datasource::ApplicationRemoteData.dart::ApplicationDioDataImp"
+
+abstract class "alef_parents::Features::enroll_student::data::datasource::GuardianTypeRemoteData.dart::GuardianDataSource" {
+  +dynamic guardianType()
+}
+
+class "alef_parents::Features::enroll_student::data::datasource::GuardianTypeRemoteData.dart::GuardianDataSourceImp" {
+  +Client client
+  +dynamic guardianType()
+}
+
+"alef_parents::Features::enroll_student::data::datasource::GuardianTypeRemoteData.dart::GuardianDataSourceImp" o-- "http::src::client.dart::Client"
+"alef_parents::Features::enroll_student::data::datasource::GuardianTypeRemoteData.dart::GuardianDataSource" <|-- "alef_parents::Features::enroll_student::data::datasource::GuardianTypeRemoteData.dart::GuardianDataSourceImp"
+
+class "alef_parents::Features::enroll_student::data::repository::ApplicationRepositortImp.dart::ApplicationRepositoryImp" {
+  +ApplicationRemoteData applicationRemoteData
+  +NetworkInfo networkInfo
+  +dynamic applyToPreschool()
+  +dynamic getApplications()
+}
+
+"alef_parents::Features::enroll_student::data::repository::ApplicationRepositortImp.dart::ApplicationRepositoryImp" o-- "alef_parents::Features::enroll_student::data::datasource::ApplicationRemoteData.dart::ApplicationRemoteData"
+"alef_parents::Features::enroll_student::data::repository::ApplicationRepositortImp.dart::ApplicationRepositoryImp" o-- "alef_parents::core::Network::network_info.dart::NetworkInfo"
+"alef_parents::Features::enroll_student::domain::repository::Application_repository.dart::ApplicationRepository" <|-- "alef_parents::Features::enroll_student::data::repository::ApplicationRepositortImp.dart::ApplicationRepositoryImp"
+
+class "alef_parents::Features::enroll_student::data::repository::GuardianRepositoryImp.dart::GuardianTypeRepositoryImp" {
+  +GuardianDataSource guardianDataSource
+  +NetworkInfo networkInfo
+  +dynamic Guardain()
+}
+
+"alef_parents::Features::enroll_student::data::repository::GuardianRepositoryImp.dart::GuardianTypeRepositoryImp" o-- "alef_parents::Features::enroll_student::data::datasource::GuardianTypeRemoteData.dart::GuardianDataSource"
+"alef_parents::Features::enroll_student::data::repository::GuardianRepositoryImp.dart::GuardianTypeRepositoryImp" o-- "alef_parents::core::Network::network_info.dart::NetworkInfo"
+"alef_parents::Features::enroll_student::domain::repository::guardianType_repository.dart::GuardianTypeRepository" <|-- "alef_parents::Features::enroll_student::data::repository::GuardianRepositoryImp.dart::GuardianTypeRepositoryImp"
+
+class "alef_parents::Features::enroll_student::data::model::preschooNameModel.dart::PreschoolNameModel" {
+  +Map<String, dynamic> toJson()
+}
+
+"alef_parents::Features::enroll_student::domain::entity::PreschoolName.dart::PreschoolName" <|-- "alef_parents::Features::enroll_student::data::model::preschooNameModel.dart::PreschoolNameModel"
+
+class "alef_parents::Features::enroll_student::data::model::EnrollmentStatusModel.dart::EnrollmentStatusModel" {
+  +Map<String, dynamic> toJson()
+}
+
+"alef_parents::Features::enroll_student::domain::entity::EnrollmentStatus.dart::EnrollmentStatus" <|-- "alef_parents::Features::enroll_student::data::model::EnrollmentStatusModel.dart::EnrollmentStatusModel"
+
+class "alef_parents::Features::enroll_student::data::model::Enrollment.dart::EnrollmentModel" {
+  +Map<String, dynamic> toJson()
+}
+
+"alef_parents::Features::enroll_student::domain::entity::Enrollment.dart::Enrollment" <|-- "alef_parents::Features::enroll_student::data::model::Enrollment.dart::EnrollmentModel"
+
+class "alef_parents::Features::enroll_student::data::model::ApplicationModel.dart::ApplicationModel" {
+  +Map<String, dynamic> toJson()
+}
+
+"alef_parents::Features::enroll_student::domain::entity::Application.dart::Application" <|-- "alef_parents::Features::enroll_student::data::model::ApplicationModel.dart::ApplicationModel"
+
+class "alef_parents::Features::enroll_student::data::model::GuardianTypeModel.dart::GuardianTypeModel" {
+  +Map<String, dynamic> toJson()
+}
+
+"alef_parents::Features::enroll_student::domain::entity::guardianType.dart::GuardianType" <|-- "alef_parents::Features::enroll_student::data::model::GuardianTypeModel.dart::GuardianTypeModel"
+
+abstract class "alef_parents::Features::enroll_student::domain::repository::guardianType_repository.dart::GuardianTypeRepository" {
+  +dynamic Guardain()
+}
+
+abstract class "alef_parents::Features::enroll_student::domain::repository::Application_repository.dart::ApplicationRepository" {
+  +dynamic applyToPreschool()
+  +dynamic getApplications()
+}
+
+class "alef_parents::Features::enroll_student::domain::entity::Application.dart::Application" {
+  +int id
+  +String studentName
+  +String status
+  +List<Object?> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::enroll_student::domain::entity::Application.dart::Application"
+
+class "alef_parents::Features::enroll_student::domain::entity::EnrollmentStatus.dart::EnrollmentStatus" {
+  +String studentName
+  +String enrollmentStatus
+  +PreschoolNameModel? preschool
+  +List<Object?> props
+}
+
+"alef_parents::Features::enroll_student::domain::entity::EnrollmentStatus.dart::EnrollmentStatus" o-- "alef_parents::Features::enroll_student::data::model::preschooNameModel.dart::PreschoolNameModel"
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::enroll_student::domain::entity::EnrollmentStatus.dart::EnrollmentStatus"
+
+class "alef_parents::Features::enroll_student::domain::entity::PreschoolName.dart::PreschoolName" {
+  +String preschoolName
+  +List<Object?> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::enroll_student::domain::entity::PreschoolName.dart::PreschoolName"
+
+class "alef_parents::Features::enroll_student::domain::entity::Enrollment.dart::Enrollment" {
+  +String message
+  +ApplicationModel application
+  +List<Object?> props
+}
+
+"alef_parents::Features::enroll_student::domain::entity::Enrollment.dart::Enrollment" o-- "alef_parents::Features::enroll_student::data::model::ApplicationModel.dart::ApplicationModel"
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::enroll_student::domain::entity::Enrollment.dart::Enrollment"
+
+class "alef_parents::Features::enroll_student::domain::entity::guardianType.dart::GuardianType" {
+  +int id
+  +String categoryName
+  +String valueName
+  +List<Object?> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::enroll_student::domain::entity::guardianType.dart::GuardianType"
+
+class "alef_parents::Features::enroll_student::domain::entity::ApplicationRequest.dart::ApplicationRequest" {
+  +String email
+  +int preschoolId
+  +String guardianType
+  +String studentName
+  +String guardianName
+  +int studentCPR
+  +String gender
+  +String grade
+  +String phone
+  +DateTime studentDOB
+  +String medicalHistory
+  +int createdBy
+  +File personalPicturePath
+  +File certificateOfBirthPath
+  +File passportPath
+  +Map<String, dynamic> toJson()
+}
+
+"alef_parents::Features::enroll_student::domain::entity::ApplicationRequest.dart::ApplicationRequest" o-- "dart::io::File"
+
+class "alef_parents::Features::enroll_student::domain::usecase::ApplyToPreschool.dart::ApplyToPreschoolUseCase" {
+  +ApplicationRepository repository
+  +dynamic call()
+}
+
+"alef_parents::Features::enroll_student::domain::usecase::ApplyToPreschool.dart::ApplyToPreschoolUseCase" o-- "alef_parents::Features::enroll_student::domain::repository::Application_repository.dart::ApplicationRepository"
+
+class "alef_parents::Features::enroll_student::domain::usecase::GuardianType.dart::GuardianTypeUseCase" {
+  +GuardianTypeRepository repository
+  +dynamic call()
+}
+
+"alef_parents::Features::enroll_student::domain::usecase::GuardianType.dart::GuardianTypeUseCase" o-- "alef_parents::Features::enroll_student::domain::repository::guardianType_repository.dart::GuardianTypeRepository"
+
+class "alef_parents::Features::enroll_student::domain::usecase::GetMyApplication.dart::GetApplicationUseCase" {
+  +ApplicationRepository repository
+  +dynamic call()
+}
+
+"alef_parents::Features::enroll_student::domain::usecase::GetMyApplication.dart::GetApplicationUseCase" o-- "alef_parents::Features::enroll_student::domain::repository::Application_repository.dart::ApplicationRepository"
+
+class "alef_parents::Features::enroll_student::presentation::pages::EnrollStudent.dart::EnrollStudent" {
+  +int preschool_id
+  +_EnrollStudentState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::Features::enroll_student::presentation::pages::EnrollStudent.dart::EnrollStudent"
+
+class "alef_parents::Features::enroll_student::presentation::pages::EnrollStudent.dart::_EnrollStudentState" {
+  -GlobalKey<FormState> _formKey
+  -TextEditingController _nameController
+  -TextEditingController _guardianNameController
+  -TextEditingController _emailController
+  -TextEditingController _cprController
+  -TextEditingController _gradeController
+  -TextEditingController _contactNumberController
+  -TextEditingController _dobController
+  -TextEditingController _medicalHistoryController
+  -Gender? _selectedGender
+  -GuardianType? _selectedGuardianType
+  -File _personalPicturePath
+  -File _certificateOfBirthPath
+  -File _passportPath
+  -bool _isPersonalPictureSelected
+  -bool _isCertificateOfBirthSelected
+  -bool _isPassportSelected
+  -bool _hideError
+  -int _currentFormCategory
+  -List<Widget Function()> _formCategories
+  +PermissionManager permissionManager
+  -Debouncer _debouncer
+  +void initState()
+  +Widget build()
+  -void _submitForm()
+  -void _moveToNextFormCategory()
+  -void _moveToPreviousFormCategory()
+  +bool areFieldsNotEmpty()
+  -void _enrollStudent()
+  -Widget _buildFormContainer()
+  -Widget _formContainer()
+  -Widget _formGuardianContainer()
+  -Widget _formPreschoolContainer()
+  -Widget _buildFilePickerButton()
+  -String _getSelectedFilePath()
+  -Widget _buildEnrollmentButton()
+  -Widget _datePickerInput()
+  -dynamic _selectDate()
+  +Widget genderDropdown()
+  -Widget _guardianTypeDropdown()
+  +void showUploadSelectionBottomSheet()
+}
+
+"alef_parents::Features::enroll_student::presentation::pages::EnrollStudent.dart::_EnrollStudentState" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"alef_parents::Features::enroll_student::presentation::pages::EnrollStudent.dart::_EnrollStudentState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"alef_parents::Features::enroll_student::presentation::pages::EnrollStudent.dart::_EnrollStudentState" o-- "alef_parents::Features::enroll_student::presentation::widgets::DropdownWidget.dart::Gender"
+"alef_parents::Features::enroll_student::presentation::pages::EnrollStudent.dart::_EnrollStudentState" o-- "alef_parents::Features::enroll_student::domain::entity::guardianType.dart::GuardianType"
+"alef_parents::Features::enroll_student::presentation::pages::EnrollStudent.dart::_EnrollStudentState" o-- "dart::io::File"
+"alef_parents::Features::enroll_student::presentation::pages::EnrollStudent.dart::_EnrollStudentState" o-- "alef_parents::framework::Permissions::permission_manager.dart::PermissionManager"
+"alef_parents::Features::enroll_student::presentation::pages::EnrollStudent.dart::_EnrollStudentState" o-- "alef_parents::framework::services::Debouncer.dart::Debouncer"
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::Features::enroll_student::presentation::pages::EnrollStudent.dart::_EnrollStudentState"
+
+class "alef_parents::Features::enroll_student::presentation::widgets::uploadFileInput.dart::DashedBorderPainter" {
+  +void paint()
+  +bool shouldRepaint()
+}
+
+"flutter::src::rendering::custom_paint.dart::CustomPainter" <|-- "alef_parents::Features::enroll_student::presentation::widgets::uploadFileInput.dart::DashedBorderPainter"
+
+class "alef_parents::Features::enroll_student::presentation::widgets::uploadFileInput.dart::DashedBorder" {
+  +Widget child
+  +Widget build()
+}
+
+"alef_parents::Features::enroll_student::presentation::widgets::uploadFileInput.dart::DashedBorder" o-- "flutter::src::widgets::framework.dart::Widget"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::Features::enroll_student::presentation::widgets::uploadFileInput.dart::DashedBorder"
+
+class "alef_parents::Features::enroll_student::presentation::widgets::DropdownWidget.dart::ReusableDropdown" {
+  +List<T> items
+  +T? selectedValue
+  +String Function(T) displayFunction
+  +void Function(T?) onChanged
+  +String hintText
+  +_ReusableDropdownState<T> createState()
+}
+
+"alef_parents::Features::enroll_student::presentation::widgets::DropdownWidget.dart::ReusableDropdown" o-- "null::String Function(T)"
+"alef_parents::Features::enroll_student::presentation::widgets::DropdownWidget.dart::ReusableDropdown" o-- "null::void Function(T)"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::Features::enroll_student::presentation::widgets::DropdownWidget.dart::ReusableDropdown"
+
+class "alef_parents::Features::enroll_student::presentation::widgets::DropdownWidget.dart::_ReusableDropdownState" {
+  -bool _isDropdownOpen
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::Features::enroll_student::presentation::widgets::DropdownWidget.dart::_ReusableDropdownState"
+
+class "alef_parents::Features::enroll_student::presentation::widgets::DropdownWidget.dart::Gender" {
+  +int index
+  {static} +List<Gender> values
+  {static} +Gender male
+  {static} +Gender female
+}
+
+"alef_parents::Features::enroll_student::presentation::widgets::DropdownWidget.dart::Gender" o-- "alef_parents::Features::enroll_student::presentation::widgets::DropdownWidget.dart::Gender"
+"dart::core::Enum" <|-- "alef_parents::Features::enroll_student::presentation::widgets::DropdownWidget.dart::Gender"
+
+class "alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::GuardianTypeBloc" {
+  +GuardianTypeUseCase guardianTypeUseCase
+}
+
+"alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::GuardianTypeBloc" o-- "alef_parents::Features::enroll_student::domain::usecase::GuardianType.dart::GuardianTypeUseCase"
+"bloc::src::bloc.dart::Bloc" <|-- "alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::GuardianTypeBloc"
+
+class "alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::GuardianTypeEvent" {
+  +List<Object> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::GuardianTypeEvent"
+
+class "alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::GetGuardianTypeEvent" {
+  +List<Object> props
+}
+
+"alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::GuardianTypeEvent" <|-- "alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::GetGuardianTypeEvent"
+
+class "alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::GuardianTypeState" {
+  +List<Object> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::GuardianTypeState"
+
+class "alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::GuardianTypeInitial" {
+}
+
+"alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::GuardianTypeState" <|-- "alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::GuardianTypeInitial"
+
+class "alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::LoadingGuadianType" {
+}
+
+"alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::GuardianTypeState" <|-- "alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::LoadingGuadianType"
+
+class "alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::LoadedGuadianType" {
+  +List<GuardianType> guardianType
+  +List<Object> props
+}
+
+"alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::GuardianTypeState" <|-- "alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::LoadedGuadianType"
+
+class "alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::ErrorGuadianType" {
+  +String message
+  +List<Object> props
+}
+
+"alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::GuardianTypeState" <|-- "alef_parents::Features::enroll_student::presentation::bloc::GuardianType::bloc::guardian_type_bloc.dart::ErrorGuadianType"
+
+class "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::ApplicationBloc" {
+  +GetApplicationUseCase getApplicationUseCase
+  +ApplyToPreschoolUseCase applyToPreschoolUseCase
+  -ApplicationState _mapFailureOrApplicationToState()
+  -ApplicationState _mapFailureOrEnrollmentToState()
+  -String _mapFailureToMessage()
+}
+
+"alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::ApplicationBloc" o-- "alef_parents::Features::enroll_student::domain::usecase::GetMyApplication.dart::GetApplicationUseCase"
+"alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::ApplicationBloc" o-- "alef_parents::Features::enroll_student::domain::usecase::ApplyToPreschool.dart::ApplyToPreschoolUseCase"
+"bloc::src::bloc.dart::Bloc" <|-- "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::ApplicationBloc"
+
+class "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::ApplicationEvent" {
+  +List<Object> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::ApplicationEvent"
+
+class "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::GetApplicationEvent" {
+  +int id
+}
+
+"alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::ApplicationEvent" <|-- "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::GetApplicationEvent"
+
+class "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::EnrollmentEvent" {
+  +ApplicationRequest request
+}
+
+"alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::EnrollmentEvent" o-- "alef_parents::Features::enroll_student::domain::entity::ApplicationRequest.dart::ApplicationRequest"
+"alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::ApplicationEvent" <|-- "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::EnrollmentEvent"
+
+class "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::ApplicationState" {
+  +List<Object> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::ApplicationState"
+
+class "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::ApplicationInitial" {
+}
+
+"alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::ApplicationState" <|-- "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::ApplicationInitial"
+
+class "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::LoadingApplicationState" {
+}
+
+"alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::ApplicationState" <|-- "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::LoadingApplicationState"
+
+class "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::LoadedApplicationState" {
+  +List<EnrollmentStatus> application
+  +List<Object> props
+}
+
+"alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::ApplicationState" <|-- "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::LoadedApplicationState"
+
+class "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::LoadedEnrollmentState" {
+  +Enrollment enrollment
+  +List<Object> props
+}
+
+"alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::LoadedEnrollmentState" o-- "alef_parents::Features::enroll_student::domain::entity::Enrollment.dart::Enrollment"
+"alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::ApplicationState" <|-- "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::LoadedEnrollmentState"
+
+class "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::ErrorApplicationState" {
+  +String message
+  +List<Object> props
+}
+
+"alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::ApplicationState" <|-- "alef_parents::Features::enroll_student::presentation::bloc::Application::application_bloc.dart::ErrorApplicationState"
+
+class "alef_parents::Features::notification::presentation::pages::NotificationPage.dart::NotificationsPage" {
+  +_NotificationsPageState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::Features::notification::presentation::pages::NotificationPage.dart::NotificationsPage"
+
+class "alef_parents::Features::notification::presentation::pages::NotificationPage.dart::_NotificationsPageState" {
+  +void initState()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::Features::notification::presentation::pages::NotificationPage.dart::_NotificationsPageState"
+
+class "alef_parents::Features::notification::presentation::widgets::NotificationList.dart::NotificationList" {
+  +String title
+  +String subtitle
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::Features::notification::presentation::widgets::NotificationList.dart::NotificationList"
+
+class "alef_parents::Features::notification::presentation::widgets::NotificationList.dart::Notifications" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::Features::notification::presentation::widgets::NotificationList.dart::Notifications"
+
+class "alef_parents::Features::Schedule_page::presentation::page::SchedulePage.dart::SchedulePage" {
+  +_SchedulePageState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::Features::Schedule_page::presentation::page::SchedulePage.dart::SchedulePage"
+
+class "alef_parents::Features::Schedule_page::presentation::page::SchedulePage.dart::_SchedulePageState" {
+  +void initState()
+  -void _handleBookingButtonPressed()
+  +Widget build()
+  -Widget _buildCalendarContainer()
+  -Widget _buildTimeContainer()
+  -Widget _buildBookingButton()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::Features::Schedule_page::presentation::page::SchedulePage.dart::_SchedulePageState"
+
+class "alef_parents::Features::Schedule_page::presentation::widget::TimeWidget.dart::TimeWidget" {
+  +List<String> availableTimes
+  +_TimeWidgetState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::Features::Schedule_page::presentation::widget::TimeWidget.dart::TimeWidget"
+
+class "alef_parents::Features::Schedule_page::presentation::widget::TimeWidget.dart::_TimeWidgetState" {
+  +String selectedTime
+  +void initState()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::Features::Schedule_page::presentation::widget::TimeWidget.dart::_TimeWidgetState"
+
+class "alef_parents::Features::Schedule_page::presentation::widget::CalendarWidget.dart::CalendarWidget" {
+  +_CalendarWidgetState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::Features::Schedule_page::presentation::widget::CalendarWidget.dart::CalendarWidget"
+
+class "alef_parents::Features::Schedule_page::presentation::widget::CalendarWidget.dart::_CalendarWidgetState" {
+  -DateTime _selectedDay
+  -DateTime _focusedDay
+  +void initState()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::Features::Schedule_page::presentation::widget::CalendarWidget.dart::_CalendarWidgetState"
+
+abstract class "alef_parents::Features::find_preschool::data::datasources::preschool_remote_datasource.dart::PreschoolRemoteDataSource" {
+  +dynamic getAllPreschool()
+  +dynamic getPreschoolById()
+  +dynamic getPreschoolByName()
+}
+
+class "alef_parents::Features::find_preschool::data::datasources::preschool_remote_datasource.dart::PreschoolRemoteDataSourceImp" {
+  +Client client
+  +dynamic getAllPreschool()
+  +dynamic getPreschoolById()
+  +dynamic getPreschoolByName()
+}
+
+"alef_parents::Features::find_preschool::data::datasources::preschool_remote_datasource.dart::PreschoolRemoteDataSourceImp" o-- "http::src::client.dart::Client"
+"alef_parents::Features::find_preschool::data::datasources::preschool_remote_datasource.dart::PreschoolRemoteDataSource" <|-- "alef_parents::Features::find_preschool::data::datasources::preschool_remote_datasource.dart::PreschoolRemoteDataSourceImp"
+
+abstract class "alef_parents::Features::find_preschool::data::datasources::preschool_local_datasource.dart::PreschoolLocalDataSource" {
+  +dynamic getCachedPreschool()
+  +dynamic cachedPreschool()
+}
+
+class "alef_parents::Features::find_preschool::data::datasources::preschool_local_datasource.dart::PreschoolLocalDataSourceImp" {
+  +SharedPreferences sharedPreferences
+  +dynamic cachedPreschool()
+  +dynamic getCachedPreschool()
+}
+
+"alef_parents::Features::find_preschool::data::datasources::preschool_local_datasource.dart::PreschoolLocalDataSourceImp" o-- "shared_preferences::shared_preferences.dart::SharedPreferences"
+"alef_parents::Features::find_preschool::data::datasources::preschool_local_datasource.dart::PreschoolLocalDataSource" <|-- "alef_parents::Features::find_preschool::data::datasources::preschool_local_datasource.dart::PreschoolLocalDataSourceImp"
+
+class "alef_parents::Features::find_preschool::data::repository::preschool_repository_imp.dart::PreschoolRepositoryImp" {
+  +PreschoolRemoteDataSource preschoolRemoteDataSource
+  +PreschoolLocalDataSource preschoolLocalDataSource
+  +NetworkInfo networkInfo
+  +dynamic getPreschools()
+  +dynamic getPreschoolById()
+  +dynamic getPreschoolByName()
+  -dynamic _getPreschool()
+}
+
+"alef_parents::Features::find_preschool::data::repository::preschool_repository_imp.dart::PreschoolRepositoryImp" o-- "alef_parents::Features::find_preschool::data::datasources::preschool_remote_datasource.dart::PreschoolRemoteDataSource"
+"alef_parents::Features::find_preschool::data::repository::preschool_repository_imp.dart::PreschoolRepositoryImp" o-- "alef_parents::Features::find_preschool::data::datasources::preschool_local_datasource.dart::PreschoolLocalDataSource"
+"alef_parents::Features::find_preschool::data::repository::preschool_repository_imp.dart::PreschoolRepositoryImp" o-- "alef_parents::core::Network::network_info.dart::NetworkInfo"
+"alef_parents::Features::find_preschool::domain::repository::preschool_repository.dart::PreschoolRepository" <|-- "alef_parents::Features::find_preschool::data::repository::preschool_repository_imp.dart::PreschoolRepositoryImp"
+
+class "alef_parents::Features::find_preschool::data::model::addressModel.dart::AddressModel" {
+  +Map<String, dynamic> toJson()
+}
+
+"alef_parents::Features::find_preschool::domain::entity::address.dart::Address" <|-- "alef_parents::Features::find_preschool::data::model::addressModel.dart::AddressModel"
+
+class "alef_parents::Features::find_preschool::data::model::preschool_model.dart::PreschoolModel" {
+  +Map<String, dynamic> toJson()
+}
+
+"alef_parents::Features::find_preschool::domain::entity::preschool.dart::Preschool" <|-- "alef_parents::Features::find_preschool::data::model::preschool_model.dart::PreschoolModel"
+
+abstract class "alef_parents::Features::find_preschool::domain::repository::preschool_repository.dart::PreschoolRepository" {
+  +dynamic getPreschools()
+  +dynamic getPreschoolByName()
+  +dynamic getPreschoolById()
+}
+
+class "alef_parents::Features::find_preschool::domain::entity::address.dart::Address" {
+  +double longitude
+  +double latitude
+  +String area
+  +String road
+  +String building
+  +List<Object?> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::find_preschool::domain::entity::address.dart::Address"
+
+class "alef_parents::Features::find_preschool::domain::entity::preschool.dart::Preschool" {
+  +int preschool_id
+  +String preschool_name
+  +int? phone
+  +String? description
+  +int registration_fees
+  +int monthly_fees
+  +String? curriculum
+  +int minimum_age
+  +int maximum_age
+  +AddressModel? address
+  +List<Object?> props
+}
+
+"alef_parents::Features::find_preschool::domain::entity::preschool.dart::Preschool" o-- "alef_parents::Features::find_preschool::data::model::addressModel.dart::AddressModel"
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::find_preschool::domain::entity::preschool.dart::Preschool"
+
+class "alef_parents::Features::find_preschool::domain::usecases::get_all_preschool.dart::GetAllPreschoolsUseCase" {
+  +PreschoolRepository repository
+  +dynamic call()
+}
+
+"alef_parents::Features::find_preschool::domain::usecases::get_all_preschool.dart::GetAllPreschoolsUseCase" o-- "alef_parents::Features::find_preschool::domain::repository::preschool_repository.dart::PreschoolRepository"
+
+class "alef_parents::Features::find_preschool::domain::usecases::get_preschool_by_id.dart::GetPreschoolByIdUseCase" {
+  +PreschoolRepository repository
+  +dynamic call()
+}
+
+"alef_parents::Features::find_preschool::domain::usecases::get_preschool_by_id.dart::GetPreschoolByIdUseCase" o-- "alef_parents::Features::find_preschool::domain::repository::preschool_repository.dart::PreschoolRepository"
+
+class "alef_parents::Features::find_preschool::domain::usecases::get_preschool_by_name.dart::GetPreschoolByNameUseCase" {
+  +PreschoolRepository repository
+  +dynamic call()
+}
+
+"alef_parents::Features::find_preschool::domain::usecases::get_preschool_by_name.dart::GetPreschoolByNameUseCase" o-- "alef_parents::Features::find_preschool::domain::repository::preschool_repository.dart::PreschoolRepository"
+
+class "alef_parents::Features::find_preschool::presentation::pages::HomePage.dart::HomePage" {
+  +_HomePageState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::Features::find_preschool::presentation::pages::HomePage.dart::HomePage"
+
+class "alef_parents::Features::find_preschool::presentation::pages::HomePage.dart::_HomePageState" {
+  -TextEditingController _searchController
+  +void dispose()
+  -void _navigateToSearchPage()
+  +Widget build()
+}
+
+"alef_parents::Features::find_preschool::presentation::pages::HomePage.dart::_HomePageState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::Features::find_preschool::presentation::pages::HomePage.dart::_HomePageState"
+
+class "alef_parents::Features::find_preschool::presentation::pages::searchPage.dart::SearchPage" {
+  +String? searchQuery
+  +_SearchPageState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::Features::find_preschool::presentation::pages::searchPage.dart::SearchPage"
+
+class "alef_parents::Features::find_preschool::presentation::pages::searchPage.dart::_SearchPageState" {
+  -TextEditingController _searchController
+  +String? searchQuery
+  +void initState()
+  +void updateSearchQuery()
+  -void _submitSearch()
+  +Widget build()
+  +Widget filterButton()
+  +void requestLocationPermission()
+  -void _showLocationPermissionDeniedDialog()
+}
+
+"alef_parents::Features::find_preschool::presentation::pages::searchPage.dart::_SearchPageState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::Features::find_preschool::presentation::pages::searchPage.dart::_SearchPageState"
+
+class "alef_parents::Features::find_preschool::presentation::pages::searchPage.dart::SearchListScreen" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::Features::find_preschool::presentation::pages::searchPage.dart::SearchListScreen"
+
+class "alef_parents::Features::find_preschool::presentation::pages::PreschoolPage.dart::PreschoolProfile" {
+  +int preschoolId
+  +_PreschoolProfileState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::Features::find_preschool::presentation::pages::PreschoolPage.dart::PreschoolProfile"
+
+class "alef_parents::Features::find_preschool::presentation::pages::PreschoolPage.dart::_PreschoolProfileState" {
+  -bool _isEnglishEnabled
+  -dynamic _searchFuture
+  +Widget build()
+  -Widget _mainBody()
+  +void showLocationSelectionBottomSheet()
+  -Widget _preschoolHeader()
+  -Widget _locationContainer()
+  -Widget _informationContainer()
+  -Widget _profileSummary()
+  -Widget _registerContactWidget()
+  -dynamic _launchWhatsApp()
+  +void openInGoogleMaps()
+  +void openInAppleMap()
+  -void _launchMapUrl()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::Features::find_preschool::presentation::pages::PreschoolPage.dart::_PreschoolProfileState"
+
+class "alef_parents::Features::find_preschool::presentation::widgets::MySearchBar.dart::MySearchBar" {
+  +void Function(String) onSearch
+  +_MySearchBarState createState()
+}
+
+"alef_parents::Features::find_preschool::presentation::widgets::MySearchBar.dart::MySearchBar" o-- "flutter::src::foundation::basic_types.dart::void Function(String)"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::Features::find_preschool::presentation::widgets::MySearchBar.dart::MySearchBar"
+
+class "alef_parents::Features::find_preschool::presentation::widgets::MySearchBar.dart::_MySearchBarState" {
+  -TextEditingController _searchController
+  -FocusNode _searchFocusNode
+  +void dispose()
+  -void _handleSearch()
+  -void _handleCancel()
+  +void initState()
+  -void _onFocusChange()
+  +Widget build()
+}
+
+"alef_parents::Features::find_preschool::presentation::widgets::MySearchBar.dart::_MySearchBarState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"alef_parents::Features::find_preschool::presentation::widgets::MySearchBar.dart::_MySearchBarState" o-- "flutter::src::widgets::focus_manager.dart::FocusNode"
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::Features::find_preschool::presentation::widgets::MySearchBar.dart::_MySearchBarState"
+
+class "alef_parents::Features::find_preschool::presentation::widgets::message_display.dart::MessageDisplayWidget" {
+  +String message
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::Features::find_preschool::presentation::widgets::message_display.dart::MessageDisplayWidget"
+
+class "alef_parents::Features::find_preschool::presentation::widgets::PreschoolList.dart::PreschoolList" {
+  +String title
+  +String subtitle
+  +String price
+  +String imageUrl
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::Features::find_preschool::presentation::widgets::PreschoolList.dart::PreschoolList"
+
+class "alef_parents::Features::find_preschool::presentation::widgets::PreschoolList.dart::PreschoolListing" {
+  +List<Preschool> preschools
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::Features::find_preschool::presentation::widgets::PreschoolList.dart::PreschoolListing"
+
+class "alef_parents::Features::find_preschool::presentation::widgets::PreschoolList.dart::PreschoolListScreen" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::Features::find_preschool::presentation::widgets::PreschoolList.dart::PreschoolListScreen"
+
+class "alef_parents::Features::find_preschool::presentation::widgets::PreschoolCard.dart::PreschoolCard" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::Features::find_preschool::presentation::widgets::PreschoolCard.dart::PreschoolCard"
+
+class "alef_parents::Features::find_preschool::presentation::widgets::PreschoolCard.dart::CardWidget" {
+  +String text
+  +String imageUrl
+  +String subtitle
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::Features::find_preschool::presentation::widgets::PreschoolCard.dart::CardWidget"
+
+class "alef_parents::Features::find_preschool::presentation::widgets::ImageGallery.dart::ImageGallery" {
+  +List<String> imageUrls
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::Features::find_preschool::presentation::widgets::ImageGallery.dart::ImageGallery"
+
+class "alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::PreschoolBloc" {
+  +GetAllPreschoolsUseCase getAllPreschool
+  -PreschoolState _mapFailureOrPreschoolToState()
+  -String _mapFailureToMessage()
+}
+
+"alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::PreschoolBloc" o-- "alef_parents::Features::find_preschool::domain::usecases::get_all_preschool.dart::GetAllPreschoolsUseCase"
+"bloc::src::bloc.dart::Bloc" <|-- "alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::PreschoolBloc"
+
+abstract class "alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::PreschoolState" {
+  +List<Object> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::PreschoolState"
+
+class "alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::PreschoolInitial" {
+}
+
+"alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::PreschoolState" <|-- "alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::PreschoolInitial"
+
+class "alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::LoadingPreschoolState" {
+}
+
+"alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::PreschoolState" <|-- "alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::LoadingPreschoolState"
+
+class "alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::LoadedPreschoolState" {
+  +List<Preschool> preschool
+  +List<Object> props
+}
+
+"alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::PreschoolState" <|-- "alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::LoadedPreschoolState"
+
+class "alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::ErrorPreschoolState" {
+  +String message
+  +List<Object> props
+}
+
+"alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::PreschoolState" <|-- "alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::ErrorPreschoolState"
+
+abstract class "alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::PreschoolEvent" {
+  +List<Object> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::PreschoolEvent"
+
+class "alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::getAllPreschoolEvent" {
+}
+
+"alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::PreschoolEvent" <|-- "alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::getAllPreschoolEvent"
+
+class "alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::RefreshPreschoolEvent" {
+}
+
+"alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::PreschoolEvent" <|-- "alef_parents::Features::find_preschool::presentation::bloc::prschool::preschool_bloc.dart::RefreshPreschoolEvent"
+
+class "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::SearchBloc" {
+  +GetPreschoolByIdUseCase getPreschoolById
+  +GetPreschoolByNameUseCase getPreschoolByName
+  -SearchState _mapFailureOrPreschoolToState()
+  -SearchState _mapFailureOrPreschoolIDToState()
+  -String _mapFailureToMessage()
+}
+
+"alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::SearchBloc" o-- "alef_parents::Features::find_preschool::domain::usecases::get_preschool_by_id.dart::GetPreschoolByIdUseCase"
+"alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::SearchBloc" o-- "alef_parents::Features::find_preschool::domain::usecases::get_preschool_by_name.dart::GetPreschoolByNameUseCase"
+"bloc::src::bloc.dart::Bloc" <|-- "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::SearchBloc"
+
+abstract class "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::SearchEvent" {
+  +List<Object> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::SearchEvent"
+
+class "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::GetPreschoolByIdEvent" {
+  +int id
+  +List<Object> props
+}
+
+"alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::SearchEvent" <|-- "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::GetPreschoolByIdEvent"
+
+class "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::GetPreschoolByNameEvent" {
+  +String name
+  +List<Object> props
+}
+
+"alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::SearchEvent" <|-- "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::GetPreschoolByNameEvent"
+
+abstract class "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::SearchState" {
+  +List<Object> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::SearchState"
+
+class "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::SearchInitial" {
+}
+
+"alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::SearchState" <|-- "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::SearchInitial"
+
+class "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::LoadingSearchState" {
+}
+
+"alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::SearchState" <|-- "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::LoadingSearchState"
+
+class "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::LoadedSearchState" {
+  +List<Preschool> preschool
+}
+
+"alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::SearchState" <|-- "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::LoadedSearchState"
+
+class "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::LoadedSearchIdState" {
+  +Preschool preschool
+}
+
+"alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::LoadedSearchIdState" o-- "alef_parents::Features::find_preschool::domain::entity::preschool.dart::Preschool"
+"alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::SearchState" <|-- "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::LoadedSearchIdState"
+
+class "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::ErrorSearchState" {
+  +String message
+  +List<Object> props
+}
+
+"alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::SearchState" <|-- "alef_parents::Features::find_preschool::presentation::bloc::prschool::search::search_bloc.dart::ErrorSearchState"
+
+abstract class "alef_parents::Features::register::data::datasource::RegisterDatasource.dart::RegisterDataSource" {
+  +dynamic register()
+}
+
+class "alef_parents::Features::register::data::datasource::RegisterDatasource.dart::RegisterDataSourceImp" {
+  +Client client
+  +dynamic register()
+}
+
+"alef_parents::Features::register::data::datasource::RegisterDatasource.dart::RegisterDataSourceImp" o-- "http::src::client.dart::Client"
+"alef_parents::Features::register::data::datasource::RegisterDatasource.dart::RegisterDataSource" <|-- "alef_parents::Features::register::data::datasource::RegisterDatasource.dart::RegisterDataSourceImp"
+
+class "alef_parents::Features::register::data::repository::registerRepositoryImp.dart::RegisterRepositoryImp" {
+  +RegisterDataSource dataSource
+  +NetworkInfo networkInfo
+  +dynamic register()
+}
+
+"alef_parents::Features::register::data::repository::registerRepositoryImp.dart::RegisterRepositoryImp" o-- "alef_parents::Features::register::data::datasource::RegisterDatasource.dart::RegisterDataSource"
+"alef_parents::Features::register::data::repository::registerRepositoryImp.dart::RegisterRepositoryImp" o-- "alef_parents::core::Network::network_info.dart::NetworkInfo"
+"alef_parents::Features::register::domain::repository::registration_repository.dart::RegisterRepository" <|-- "alef_parents::Features::register::data::repository::registerRepositoryImp.dart::RegisterRepositoryImp"
+
+class "alef_parents::Features::register::data::model::RegisterModel.dart::RegisterModel" {
+  +Map<String, dynamic> toJson()
+}
+
+"alef_parents::Features::register::domain::entity::register.dart::Register" <|-- "alef_parents::Features::register::data::model::RegisterModel.dart::RegisterModel"
+
+class "alef_parents::Features::register::data::model::UserModel.dart::UserModel" {
+  +Map<String, dynamic> toJson()
+}
+
+"alef_parents::Features::register::domain::entity::User.dart::User" <|-- "alef_parents::Features::register::data::model::UserModel.dart::UserModel"
+
+abstract class "alef_parents::Features::register::domain::repository::registration_repository.dart::RegisterRepository" {
+  +dynamic register()
+}
+
+class "alef_parents::Features::register::domain::entity::register.dart::Register" {
+  +String message
+  +User user
+  +List<Object?> props
+}
+
+"alef_parents::Features::register::domain::entity::register.dart::Register" o-- "alef_parents::Features::register::domain::entity::User.dart::User"
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::register::domain::entity::register.dart::Register"
+
+class "alef_parents::Features::register::domain::entity::User.dart::User" {
+  +int id
+  +String email
+  +String roleName
+  +String name
+  +DateTime createdAt
+  +DateTime updatedAt
+  +List<Object?> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::register::domain::entity::User.dart::User"
+
+class "alef_parents::Features::register::domain::usecase::register.dart::RegisterUseCase" {
+  +RegisterRepository repository
+  +dynamic call()
+}
+
+"alef_parents::Features::register::domain::usecase::register.dart::RegisterUseCase" o-- "alef_parents::Features::register::domain::repository::registration_repository.dart::RegisterRepository"
+
+class "alef_parents::Features::register::presentation::pages::RegisterPage.dart::RegisterPage" {
+  +_RegisterPageState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::Features::register::presentation::pages::RegisterPage.dart::RegisterPage"
+
+class "alef_parents::Features::register::presentation::pages::RegisterPage.dart::_RegisterPageState" {
+  -TextEditingController _emailController
+  -TextEditingController _nameController
+  -TextEditingController _passwordController
+  -TextEditingController _confirmPasswordController
+  +String? registerError
+  +void dispose()
+  -void _register()
+  +Widget build()
+}
+
+"alef_parents::Features::register::presentation::pages::RegisterPage.dart::_RegisterPageState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::Features::register::presentation::pages::RegisterPage.dart::_RegisterPageState"
+
+class "alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::RegisterBloc" {
+  +RegisterUseCase registerUseCase
+}
+
+"alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::RegisterBloc" o-- "alef_parents::Features::register::domain::usecase::register.dart::RegisterUseCase"
+"bloc::src::bloc.dart::Bloc" <|-- "alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::RegisterBloc"
+
+class "alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::RegisterEvent" {
+  +List<Object> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::RegisterEvent"
+
+class "alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::RegisterUserEvent" {
+  +String email
+  +String name
+  +String password
+  +List<Object> props
+}
+
+"alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::RegisterEvent" <|-- "alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::RegisterUserEvent"
+
+class "alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::RegisterState" {
+  +List<Object> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::RegisterState"
+
+class "alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::RegisterInitial" {
+}
+
+"alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::RegisterState" <|-- "alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::RegisterInitial"
+
+class "alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::LoadingRegisterState" {
+}
+
+"alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::RegisterState" <|-- "alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::LoadingRegisterState"
+
+class "alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::LoadedRegisterState" {
+  +Register register
+  +List<Object> props
+}
+
+"alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::LoadedRegisterState" o-- "alef_parents::Features::register::domain::entity::register.dart::Register"
+"alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::RegisterState" <|-- "alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::LoadedRegisterState"
+
+class "alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::ErrorRegisterState" {
+  +String message
+  +List<Object> props
+}
+
+"alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::RegisterState" <|-- "alef_parents::Features::register::presentation::Bloc::register::register_bloc.dart::ErrorRegisterState"
+
+abstract class "alef_parents::Features::Login::data::datasource::LoginDatasource.dart::LoginDataSource" {
+  +dynamic login()
+}
+
+class "alef_parents::Features::Login::data::datasource::LoginDatasource.dart::LoginDataSourceImp" {
+  +Client client
+  +dynamic login()
+}
+
+"alef_parents::Features::Login::data::datasource::LoginDatasource.dart::LoginDataSourceImp" o-- "http::src::client.dart::Client"
+"alef_parents::Features::Login::data::datasource::LoginDatasource.dart::LoginDataSource" <|-- "alef_parents::Features::Login::data::datasource::LoginDatasource.dart::LoginDataSourceImp"
+
+class "alef_parents::Features::Login::data::repository::LoginRepositoryImp.dart::LoginRepositoryImp" {
+  +LoginDataSource loginDataSource
+  +NetworkInfo networkInfo
+  +dynamic login()
+}
+
+"alef_parents::Features::Login::data::repository::LoginRepositoryImp.dart::LoginRepositoryImp" o-- "alef_parents::Features::Login::data::datasource::LoginDatasource.dart::LoginDataSource"
+"alef_parents::Features::Login::data::repository::LoginRepositoryImp.dart::LoginRepositoryImp" o-- "alef_parents::core::Network::network_info.dart::NetworkInfo"
+"alef_parents::Features::Login::domain::repository::login_repository.dart::LoginRepository" <|-- "alef_parents::Features::Login::data::repository::LoginRepositoryImp.dart::LoginRepositoryImp"
+
+class "alef_parents::Features::Login::data::model::loginModel.dart::LoginModel" {
+  +Map<String, dynamic> toJson()
+}
+
+"alef_parents::Features::Login::domain::entity::login.dart::Login" <|-- "alef_parents::Features::Login::data::model::loginModel.dart::LoginModel"
+
+abstract class "alef_parents::Features::Login::domain::repository::login_repository.dart::LoginRepository" {
+  +dynamic login()
+}
+
+class "alef_parents::Features::Login::domain::entity::login.dart::Login" {
+  +String message
+  +String jsontoken
+  +User user
+  +List<Object?> props
+}
+
+"alef_parents::Features::Login::domain::entity::login.dart::Login" o-- "alef_parents::Features::register::domain::entity::User.dart::User"
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::Login::domain::entity::login.dart::Login"
+
+class "alef_parents::Features::Login::domain::usecases::login.dart::LoginUseCase" {
+  +LoginRepository repository
+  +dynamic call()
+}
+
+"alef_parents::Features::Login::domain::usecases::login.dart::LoginUseCase" o-- "alef_parents::Features::Login::domain::repository::login_repository.dart::LoginRepository"
+
+class "alef_parents::Features::Login::presentation::widget::EmailInputFb2.dart::EmailInputFb2" {
+  +TextEditingController inputController
+  +Widget build()
+}
+
+"alef_parents::Features::Login::presentation::widget::EmailInputFb2.dart::EmailInputFb2" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::Features::Login::presentation::widget::EmailInputFb2.dart::EmailInputFb2"
+
+class "alef_parents::Features::Login::presentation::widget::PasswordInputFB2.dart::PasswordInputFb2" {
+  +TextEditingController inputController
+  +Widget build()
+}
+
+"alef_parents::Features::Login::presentation::widget::PasswordInputFB2.dart::PasswordInputFb2" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::Features::Login::presentation::widget::PasswordInputFB2.dart::PasswordInputFb2"
+
+class "alef_parents::Features::Login::presentation::widget::googleBtn.dart::GoogleBtn" {
+  +dynamic Function() onPressed
+  +Widget build()
+}
+
+"alef_parents::Features::Login::presentation::widget::googleBtn.dart::GoogleBtn" o-- "null::dynamic Function()"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::Features::Login::presentation::widget::googleBtn.dart::GoogleBtn"
+
+class "alef_parents::Features::Login::presentation::pages::LoginPage.dart::LoginPage" {
+  +_LoginPageState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::Features::Login::presentation::pages::LoginPage.dart::LoginPage"
+
+class "alef_parents::Features::Login::presentation::pages::LoginPage.dart::_LoginPageState" {
+  -TextEditingController _emailController
+  -TextEditingController _passwordController
+  +String? loginError
+  +Auth auth
+  +void dispose()
+  -void _login()
+  +Widget build()
+}
+
+"alef_parents::Features::Login::presentation::pages::LoginPage.dart::_LoginPageState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"alef_parents::Features::Login::presentation::pages::LoginPage.dart::_LoginPageState" o-- "alef_parents::framework::services::auth::auth.dart::Auth"
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::Features::Login::presentation::pages::LoginPage.dart::_LoginPageState"
+
+class "alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LoginBloc" {
+  +LoginUseCase loginUseCase
+  -LoginState _mapFailureOrLogedToState()
+  -String _mapFailureToMessage()
+}
+
+"alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LoginBloc" o-- "alef_parents::Features::Login::domain::usecases::login.dart::LoginUseCase"
+"bloc::src::bloc.dart::Bloc" <|-- "alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LoginBloc"
+
+class "alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LoginEvent" {
+  +List<Object> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LoginEvent"
+
+class "alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LogUserEvent" {
+  +String email
+  +String password
+  +List<Object> props
+}
+
+"alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LoginEvent" <|-- "alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LogUserEvent"
+
+class "alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LoginState" {
+  +List<Object> props
+}
+
+"equatable::src::equatable.dart::Equatable" <|-- "alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LoginState"
+
+class "alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LoginInitial" {
+}
+
+"alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LoginState" <|-- "alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LoginInitial"
+
+class "alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LoadingLoginState" {
+}
+
+"alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LoginState" <|-- "alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LoadingLoginState"
+
+class "alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LoadedLoginState" {
+  +Login login
+  +List<Object> props
+}
+
+"alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LoadedLoginState" o-- "alef_parents::Features::Login::domain::entity::login.dart::Login"
+"alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LoginState" <|-- "alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LoadedLoginState"
+
+class "alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::ErrorLoginState" {
+  +String message
+  +List<Object> props
+}
+
+"alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::LoginState" <|-- "alef_parents::Features::Login::presentation::Bloc::bloc::login_bloc.dart::ErrorLoginState"
+
+class "alef_parents::Features::User_Profile::presentation::pages::SettingsPage.dart::SettingsPage" {
+  +_SettingsPageState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::Features::User_Profile::presentation::pages::SettingsPage.dart::SettingsPage"
+
+class "alef_parents::Features::User_Profile::presentation::pages::SettingsPage.dart::_SettingsPageState" {
+  +bool notificationsEnabled
+  +String currentLanguage
+  +Widget build()
+  -void _changeLanguage()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::Features::User_Profile::presentation::pages::SettingsPage.dart::_SettingsPageState"
+
+class "alef_parents::Features::User_Profile::presentation::pages::UserProfile.dart::UserProfile" {
+  +_UserProfileState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::Features::User_Profile::presentation::pages::UserProfile.dart::UserProfile"
+
+class "alef_parents::Features::User_Profile::presentation::pages::UserProfile.dart::_UserProfileState" {
+  -bool _isEnglishEnabled
+  +FlutterSecureStorage secureStorage
+  +int userId
+  -dynamic _loadUserId()
+  +void initState()
+  +Widget build()
+}
+
+"alef_parents::Features::User_Profile::presentation::pages::UserProfile.dart::_UserProfileState" o-- "flutter_secure_storage::flutter_secure_storage.dart::FlutterSecureStorage"
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::Features::User_Profile::presentation::pages::UserProfile.dart::_UserProfileState"
+
+class "alef_parents::Features::User_Profile::presentation::widgets::TapBar.dart::TabPair" {
+  +Tab tab
+  +Widget view
+}
+
+"alef_parents::Features::User_Profile::presentation::widgets::TapBar.dart::TabPair" o-- "flutter::src::material::tabs.dart::Tab"
+"alef_parents::Features::User_Profile::presentation::widgets::TapBar.dart::TabPair" o-- "flutter::src::widgets::framework.dart::Widget"
+
+class "alef_parents::Features::User_Profile::presentation::widgets::TapBar.dart::TabBarAndTabViews" {
+  +_TabBarAndTabViewsState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::Features::User_Profile::presentation::widgets::TapBar.dart::TabBarAndTabViews"
+
+class "alef_parents::Features::User_Profile::presentation::widgets::TapBar.dart::_TabBarAndTabViewsState" {
+  -TabController _tabController
+  +void initState()
+  +void dispose()
+  +Widget build()
+}
+
+"alef_parents::Features::User_Profile::presentation::widgets::TapBar.dart::_TabBarAndTabViewsState" o-- "flutter::src::material::tab_controller.dart::TabController"
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::Features::User_Profile::presentation::widgets::TapBar.dart::_TabBarAndTabViewsState"
+"flutter::src::widgets::ticker_provider.dart::SingleTickerProviderStateMixin" <|-- "alef_parents::Features::User_Profile::presentation::widgets::TapBar.dart::_TabBarAndTabViewsState"
+
+class "alef_parents::Features::User_Profile::presentation::widgets::EnrollmentStatus.dart::EnrollmentStatusList" {
+  +String kidName
+  +String preschoolName
+  +String status
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::Features::User_Profile::presentation::widgets::EnrollmentStatus.dart::EnrollmentStatusList"
+
+class "alef_parents::Features::User_Profile::presentation::widgets::EnrollmentStatus.dart::EnrollmentStatusListing" {
+  +List<EnrollmentStatus> enrollmentSatus
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "alef_parents::Features::User_Profile::presentation::widgets::EnrollmentStatus.dart::EnrollmentStatusListing"
+
+class "alef_parents::Features::User_Profile::presentation::widgets::StudentDropDown.dart::StudentDropDown" {
+  +List<String> options
+  +String? studentName
+  +String? studentSchool
+  +void Function(String)? onChanged
+  +_StudentDropDownState createState()
+}
+
+"alef_parents::Features::User_Profile::presentation::widgets::StudentDropDown.dart::StudentDropDown" o-- "flutter::src::foundation::basic_types.dart::void Function(String)"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::Features::User_Profile::presentation::widgets::StudentDropDown.dart::StudentDropDown"
+
+class "alef_parents::Features::User_Profile::presentation::widgets::StudentDropDown.dart::_StudentDropDownState" {
+  -bool _isDropdownOpen
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::Features::User_Profile::presentation::widgets::StudentDropDown.dart::_StudentDropDownState"
+
+class "alef_parents::firebase_options.dart::DefaultFirebaseOptions" {
+  {static} +FirebaseOptions android
+  {static} +FirebaseOptions ios
+  {static} +FirebaseOptions macos
+  {static} +FirebaseOptions currentPlatform
+}
+
+"alef_parents::firebase_options.dart::DefaultFirebaseOptions" o-- "firebase_core_platform_interface::firebase_core_platform_interface.dart::FirebaseOptions"
+
+class "alef_parents::main.dart::MyApp" {
+  +_MyAppState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::main.dart::MyApp"
+
+class "alef_parents::main.dart::_MyAppState" {
+  +dynamic savedLocale
+  +void initState()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::main.dart::_MyAppState"
+
+class "alef_parents::main.dart::MyHomePage" {
+  +int? page
+  +State<MyHomePage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "alef_parents::main.dart::MyHomePage"
+
+class "alef_parents::main.dart::_MyHomePageState" {
+  -TextEditingController _searchController
+  -int _selectedIndex
+  -List<Widget> _pages
+  -void _onItemTapped()
+  +void dispose()
+  +void initState()
+  +Widget build()
+}
+
+"alef_parents::main.dart::_MyHomePageState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "alef_parents::main.dart::_MyHomePageState"
+
+
+@enduml
