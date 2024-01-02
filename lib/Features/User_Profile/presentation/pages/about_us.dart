@@ -36,7 +36,7 @@ class AboutUsPage extends StatelessWidget {
             Container(
               alignment: Alignment.center,
               child: Image.asset(
-                'lib/assets/images/Alef_logo2.png',
+                'lib/assets/images/Alef_logo.png',
                 width: 100,
                 height: 100,
               ),

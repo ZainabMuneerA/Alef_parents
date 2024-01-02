@@ -13,5 +13,5 @@ abstract class ApplicationRepository {
    
   Future<Either<Failure, List<EnrollmentStatus>>> getApplications(int id);
 
-  Future<Either<Failure, List<EnrollmentStatus>>> cancelApplications(int id);
+  Future<Either<Failure, String>> cancelApplications(int id);
 }

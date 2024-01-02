@@ -9,7 +9,6 @@ import 'package:alef_parents/Features/User_Profile/presentation/pages/contact_us
 import 'package:alef_parents/Features/User_Profile/presentation/widgets/student_evaluation_report.dart';
 import 'package:alef_parents/Features/attendance/presentation/pages/attendance_report.dart';
 import 'package:alef_parents/Features/enroll_student/presentation/pages/EnrollStudent.dart';
-import 'package:alef_parents/Features/enroll_student/presentation/widgets/navigation_form.dart';
 import 'package:alef_parents/Features/events/presentation/pages/student_calendar_page.dart';
 import 'package:alef_parents/Features/find_preschool/domain/entity/preschool.dart';
 import 'package:alef_parents/Features/find_preschool/presentation/bloc/prschool/preschool_bloc.dart';
@@ -19,9 +18,10 @@ import 'package:alef_parents/Features/notification/presentation/pages/Notificati
 import 'package:alef_parents/Features/payment/presentation/bloc/fees/fees_bloc.dart';
 import 'package:alef_parents/Features/payment/presentation/pages/payment_details_page.dart';
 import 'package:alef_parents/Features/payment/presentation/pages/payment_page.dart';
+import 'package:alef_parents/core/widget/loading_widget.dart';
 import 'package:alef_parents/firebase_options.dart';
+import 'package:alef_parents/framework/services/auth/auth.dart';
 import 'package:alef_parents/framework/shared_prefrences/UserPreferences.dart';
-import 'package:alef_parents/testPayment.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +80,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late Future<Locale> savedLocale;
-  late String? userEmail;
+  late String? userToken;
+  bool? validToken;
 
   @override
   void initState() {
@@ -89,9 +90,10 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> initializeData() async {
+    Auth auth = Auth();
     savedLocale = getLocale();
-    userEmail = await UserPreferences.getEmail();
-
+    userToken = await UserPreferences.getEmail();
+    validToken = await auth.checkToken();
     // Ensure that the state is updated after the asynchronous operations
     if (mounted) {
       setState(() {});
@@ -100,12 +102,15 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    if (validToken == null) {
+      return CircularProgressIndicator();
+    }
     return FutureBuilder<Locale>(
       future: savedLocale,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // Return loading or splash screen while waiting for the locale to be fetched.
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
           // Handle the error
           return Text('Error: ${snapshot.error}');
@@ -139,12 +144,12 @@ class _MyAppState extends State<MyApp> {
               }
               if (settings.name == '/register') {
                 return MaterialPageRoute(
-                  builder: (context) => RegisterPage(),
+                  builder: (context) => const RegisterPage(),
                 );
               }
               if (settings.name == '/settings') {
                 return MaterialPageRoute(
-                  builder: (context) => SettingsPage(),
+                  builder: (context) => const SettingsPage(),
                 );
               }
               if (settings.name == '/home') {
@@ -219,8 +224,8 @@ class _MyAppState extends State<MyApp> {
                   builder: (context) => ContactUsPage(),
                 );
               }
-          
-                     if (settings.name == '/student-calendar') {
+
+              if (settings.name == '/student-calendar') {
                 final Map<String, dynamic>? args =
                     settings.arguments as Map<String, dynamic>?;
 
@@ -246,7 +251,6 @@ class _MyAppState extends State<MyApp> {
                 }
               }
 
-
               if (settings.name == '/attendance-report') {
                 final Map<String, dynamic>? args =
                     settings.arguments as Map<String, dynamic>?;
@@ -259,7 +263,6 @@ class _MyAppState extends State<MyApp> {
                   );
                 }
               }
-
 
               if (settings.name == '/student-report') {
                 final Map<String, dynamic>? args =
@@ -287,15 +290,19 @@ class _MyAppState extends State<MyApp> {
                     ),
                   );
                 }
-              }
-              if (userEmail == null) {
-                return MaterialPageRoute(
-                  builder: (context) => LoginPage(),
-                );
               } else {
-                return MaterialPageRoute(
-                  builder: (context) => MyHomePage(),
-                );
+                if (userToken != null &&
+                    validToken != null &&
+                    validToken == true) {
+                  return MaterialPageRoute(
+                    builder: (context) => MyHomePage(),
+                  );
+                } else {
+                  print("$userToken and $validToken");
+                  return MaterialPageRoute(
+                    builder: (context) => const LoginPage(),
+                  );
+                }
               }
             },
           );
@@ -315,7 +322,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  TextEditingController _searchController = TextEditingController();
   int _selectedIndex = 0;
   late List<Widget> _pages;
   int? userId; // Make userId nullable
@@ -327,11 +333,9 @@ class _MyHomePageState extends State<MyHomePage> {
     // Initialize pages with a placeholder
     _pages = [
       HomePage(),
-      // SearchPage(searchQuery: widget.searchString),
-      SchedulePage(preschoolId: 1, applicationId: 69, preschoolName: 'Alrayaheen'),
+      SearchPage(searchQuery: widget.searchString),
       Container(), // Placeholder widget
 
-   
       // Add the remaining pages here
     ];
 
@@ -383,7 +387,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (userId != null && index == 2) {
       _pages[2] = UserProfile(userId: userId!);
     } else if (userId == null && index == 2) {
-      _pages[2] = LoginPage();
+      _pages[2] = const LoginPage();
     }
 
     return _pages[index];
@@ -417,7 +421,7 @@ class PdfViewerPage extends StatelessWidget {
         if (state is LoadedEvaluationStudentState) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('PDF Viewer'),
+              title: const Text('PDF Viewer'),
             ),
             body: PDFView(
               pdfData: state.pdf,
@@ -426,9 +430,9 @@ class PdfViewerPage extends StatelessWidget {
         } else {
           return Scaffold(
             appBar: AppBar(
-              title: Text('PDF Viewer'),
+              title: const Text('PDF Viewer'),
             ),
-            body: Center(
+            body: const Center(
               child: CircularProgressIndicator(),
             ),
           );

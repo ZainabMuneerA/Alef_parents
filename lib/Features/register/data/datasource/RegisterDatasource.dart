@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:alef_parents/Features/register/data/model/RegisterModel.dart';
 import 'package:alef_parents/core/.env';
+import 'package:alef_parents/framework/services/auth/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,9 +24,13 @@ class RegisterDataSourceImp implements RegisterDataSource {
   Future<RegisterModel> register(
       String email, String name, String password) async {
     try {
+      Auth auth = new Auth();
+
       final response = await client.post(
-        Uri.parse(BASE_URL + "users/register"),
-        headers: {"Content-Type": "application/json"},
+        Uri.parse("${BASE_URL}users/register"),
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: jsonEncode({
           "email": email,
           "name": name,
@@ -39,11 +44,9 @@ class RegisterDataSourceImp implements RegisterDataSource {
         final decodedJson = json.decode(response.body);
 
         final RegisterModel registerModel = RegisterModel.fromJson(decodedJson);
+        //log in using firebase
+        auth.signInWithEmailAndPassword(email, password);
 
-        // Save user ID and username in shared preferences
-        await UserPreferences.saveUserId(registerModel.user.id);
-        await UserPreferences.saveUsername(registerModel.user.name);
-        await UserPreferences.saveEmail(registerModel.user.email);
         return registerModel;
       } else {
         throw ServerException();
@@ -53,3 +56,12 @@ class RegisterDataSourceImp implements RegisterDataSource {
     }
   }
 }
+
+
+
+
+        // Save user ID and username in shared preferences
+        // await UserPreferences.saveUserId(registerModel.user.id);
+        // await UserPreferences.saveUsername(registerModel.user.name);
+        // await UserPreferences.saveEmail(registerModel.user.email);
+        // await UserPreferences.saveToken()

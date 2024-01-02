@@ -9,9 +9,9 @@ class AttendanceRecordsWidget extends StatelessWidget {
   final int studentId;
 
   AttendanceRecordsWidget({
-    super.key,
+    Key? key,
     required this.studentId,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,3 +48,4 @@ class AttendanceRecordsWidget extends StatelessWidget {
     );
   }
 }
+    

@@ -47,7 +47,7 @@ class ApplicationRepositoryImp implements ApplicationRepository {
   }
   
   @override
-  Future<Either<Failure, List<EnrollmentStatus>>> cancelApplications(int id) async{
+  Future<Either<Failure, String>> cancelApplications(int id) async{
      if (await networkInfo.isConnected) {
       try {
         final applications = await applicationRemoteData.cancelApplication(id);

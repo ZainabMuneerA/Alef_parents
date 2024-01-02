@@ -27,11 +27,10 @@ class StudentEvaluationBloc
           final failureOrStudent = await getStudentEvaluationUseCase(event.id);
           emit(_mapFailureOrStudentToState(failureOrStudent));
         } on NoDataYetException catch (e) {
-          print("No data yet: ${e.message}");
+          
            emit(NoDataState(message: e.message));
           // Handle the case where evaluation data has not been issued yet
         } catch (error) {
-          print(error);
           emit(
               ErrorStudentEvaluationState(message: "An Error occured: $error"));
         }

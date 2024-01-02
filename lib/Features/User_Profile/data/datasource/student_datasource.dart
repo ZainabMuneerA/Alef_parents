@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:alef_parents/Features/User_Profile/data/model/student_model.dart';
 import 'package:alef_parents/core/.env';
 import 'package:alef_parents/core/error/Exception.dart';
+import 'package:alef_parents/framework/shared_prefrences/UserPreferences.dart';
 import 'package:http/http.dart' as http;
 
 
@@ -24,13 +25,14 @@ class StudentDataSourceImp implements StudentDataSource {
   Future<List<StudentModel>> getStudent(
       int userID, ) async {
     try {
+            final String? authToken = await UserPreferences.getToken();
+
       final response = await client.get(
-        Uri.parse(BASE_URL + "student?user_id= $userID"),
-        headers: {"Content-Type": "application/json"},
+        Uri.parse("${BASE_URL}student?user_id= $userID"),
+        headers: {"Content-Type": "application/json", "Authorization": "Bearer $authToken",},
       );
 
-      print("Response status code: ${response.statusCode}");
-      print("Response body: ${response.body}");
+  
 
       if (response.statusCode == 200) {
         // Decode the JSON body response

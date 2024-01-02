@@ -10,11 +10,18 @@ sealed class ApplicationEvent extends Equatable {
 class GetApplicationEvent extends ApplicationEvent {
   final int id;
  
-  GetApplicationEvent({required this.id});
+  const GetApplicationEvent({required this.id});
 }
+
 
 class EnrollmentEvent extends ApplicationEvent {
   final ApplicationRequest request;
 
-  EnrollmentEvent({required this.request});
+  const EnrollmentEvent({required this.request});
+}
+
+class CancelApplicationEvent extends ApplicationEvent {
+  final int id;
+
+  const CancelApplicationEvent({required this.id});
 }

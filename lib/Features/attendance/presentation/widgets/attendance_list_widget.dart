@@ -106,7 +106,7 @@ class AttendanceStatusList extends StatelessWidget {
 class AttendanceStatusListing extends StatelessWidget {
   final List<Attendance> attendances;
 
-  AttendanceStatusListing({required this.attendances});
+  const AttendanceStatusListing({super.key, required this.attendances});
 
   @override
   Widget build(BuildContext context) {

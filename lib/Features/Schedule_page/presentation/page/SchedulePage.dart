@@ -42,7 +42,6 @@ class _SchedulePageState extends State<SchedulePage> {
     timeBloc = di.sl<TimeBloc>();
   }
 
-//!!make sure you need this cuz i dont think so
   void handleDaySelected(String day) {
     setState(() {
       selectedDay = day;
@@ -88,9 +87,7 @@ class _SchedulePageState extends State<SchedulePage> {
                         isError: true,
                         subText: state.message,
                         btnText: "Close",
-                        onPressed: () {
-                          print("hi");
-                        },
+                        onPressed: () {},
                       );
                     } else {
                       return Container();
@@ -118,7 +115,6 @@ class _SchedulePageState extends State<SchedulePage> {
         padding: const EdgeInsets.all(8.0),
         child: CalendarWidget(
           onDaySelected: (day) {
-            print(day);
             setState(() {
               selectedDay = day;
               timeBloc.add(GetAvailableTime(widget.preschoolId, day));
@@ -152,14 +148,6 @@ class _SchedulePageState extends State<SchedulePage> {
       height: 61,
       child: ElevatedButton(
         onPressed: _handleBookingButtonPressed,
-        child: const Text(
-          'Confirm Appointment',
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
@@ -167,6 +155,13 @@ class _SchedulePageState extends State<SchedulePage> {
             ),
           ),
           backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
+        ),
+        child: const Text(
+          'Confirm Appointment',
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.white,
+          ),
         ),
       ),
     );
@@ -211,7 +206,7 @@ class _SchedulePageState extends State<SchedulePage> {
           btnText: 'Save Appointment',
           onPressed: () {
             _addToCalendar();
-            Navigator.pushNamed(context, '/home');
+           // Navigator.pushNamed(context, '/home');
           },
         );
       },
@@ -240,5 +235,6 @@ class _SchedulePageState extends State<SchedulePage> {
     );
 
     await Add2Calendar.addEvent2Cal(event);
+     
   }
 }

@@ -7,6 +7,7 @@ import 'package:alef_parents/Features/enroll_student/domain/entity/EnrollmentSta
 import 'package:alef_parents/Features/enroll_student/presentation/bloc/GuardianType/bloc/guardian_type_bloc.dart';
 import 'package:alef_parents/Features/find_preschool/presentation/bloc/prschool/preschool_bloc.dart';
 import 'package:alef_parents/Features/find_preschool/presentation/bloc/search/search_bloc.dart';
+import 'package:alef_parents/core/error/Exception.dart';
 import 'package:alef_parents/core/error/Failure.dart';
 import 'package:dartz/dartz.dart' as dartz;
 import 'package:dotted_border/dotted_border.dart';
@@ -47,12 +48,10 @@ class EnrollStudent extends StatefulWidget {
 
 class _EnrollStudentState extends State<EnrollStudent> {
   late final String savedEmail;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _guardianNameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _cprController = TextEditingController();
-  final TextEditingController _gradeController = TextEditingController();
   final TextEditingController _contactNumberController =
       TextEditingController();
   final TextEditingController _dobController = TextEditingController();
@@ -130,30 +129,34 @@ class _EnrollStudentState extends State<EnrollStudent> {
             showBackButton: true,
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: 10.0), // Adjust the horizontal padding as needed
-          child: BlocBuilder<GuardianTypeBloc, GuardianTypeState>(
-            builder: (context, state) {
-              if (state is LoadedGuadianType) {
-                if (_isLoading == true) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
+       body: Padding(
+        padding: const EdgeInsets.symmetric(
+            horizontal: 10.0), // Adjust the horizontal padding as needed
+        child: BlocBuilder<GuardianTypeBloc, GuardianTypeState>(
+          builder: (context, guardianState) {
+            return BlocBuilder<SearchBloc, SearchState>(
+              builder: (context, gradeState) {
+                if (guardianState is LoadedGuadianType &&
+                    gradeState is LoadedGradesState) {
+                  if (_isLoading == true) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return Center(
+                    child: _formCategories[_currentFormCategory](),
                   );
+                } else {
+                  return const LoadingWidget();
                 }
-                return Center(
-                  child: _formCategories[_currentFormCategory](),
-                );
-              } else {
-                return const LoadingWidget();
-              }
-            },
-          ),
+              },
+            );
+          },
         ),
       ),
-    );
-  }
-
+    ),
+  );
+}
 
   void _moveToNextFormCategory() {
     setState(() {
@@ -269,9 +272,11 @@ class _EnrollStudentState extends State<EnrollStudent> {
                 _showSuccessDialog(enrollment.application.id);
               },
             );
-          }
+          }//added this
+         }on NoDataYetException catch (e){
+                     _showErrorDialog(e.message);
+       
         } catch (error) {
-          print(error);
           _showErrorDialog('Unexpected error occurred');
         } finally {
           setState(() {
@@ -394,12 +399,10 @@ class _EnrollStudentState extends State<EnrollStudent> {
 
   Widget _formPreschoolContainer() {
     return
-        // buildSubmittionScreen(context);
 
         _buildFormContainer([
       ReusableInputField(
           label: savedEmail, isEmail: true, inputController: _emailController),
-      // ReusableInputField(label: 'Grade', inputController: _gradeController),
       const SizedBox(height: 25),
       _gradeDropdown(),
       const SizedBox(height: 25),
@@ -503,7 +506,6 @@ class _EnrollStudentState extends State<EnrollStudent> {
     );
   }
 
-// "* ${path.basename(_getSelectedFilePath(label))}",
   String _getSelectedFilePath(String label) {
     switch (label) {
       case 'Select Personal Picture':
@@ -537,7 +539,6 @@ class _EnrollStudentState extends State<EnrollStudent> {
                 name,
                 style: const TextStyle(
                   fontSize: 15,
-                  // fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
@@ -609,31 +610,31 @@ class _EnrollStudentState extends State<EnrollStudent> {
       onTap: () => _selectDate(context),
       decoration: InputDecoration(
         labelText: 'Date of Birth',
-        labelStyle: const TextStyle(
+        labelStyle:  TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.normal,
-          color: Color.fromARGB(255, 87, 77, 205),
+          color: primaryColor,
         ),
         filled: true,
         fillColor: const Color(0xffffffff),
         hintText: 'Select Date',
-        hintStyle: const TextStyle(color: Color(0xff6D28D9)),
+        hintStyle:  TextStyle(color: primaryColor),
         contentPadding: const EdgeInsets.symmetric(
           vertical: 20.0,
           horizontal: 16.0,
         ),
         border: OutlineInputBorder(
-          borderSide: const BorderSide(
-              color: Color.fromARGB(255, 87, 77, 205), width: 1.0),
+          borderSide:  BorderSide(
+              color: primaryColor, width: 1.0),
           borderRadius: BorderRadius.circular(10.0),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Color(0xff6D28D9), width: 1.0),
+          borderSide:  BorderSide(color: primaryColor, width: 1.0),
           borderRadius: BorderRadius.circular(10.0),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-              color: Color.fromARGB(255, 87, 77, 205), width: 1.0),
+          borderSide:  BorderSide(
+              color: primaryColor, width: 1.0),
           borderRadius: BorderRadius.circular(10.0),
         ),
       ),
@@ -674,7 +675,6 @@ class _EnrollStudentState extends State<EnrollStudent> {
         });
         // Handle dropdown value change
         if (newValue != null) {
-          print('Selected Gender: $newValue');
         }
       },
     );
@@ -695,7 +695,6 @@ class _EnrollStudentState extends State<EnrollStudent> {
                 _selectedGuardianType = newValue;
               });
               if (newValue != null) {
-                print('Selected: ${newValue.valueName}');
               }
             },
             hintText: 'Guardian Type',

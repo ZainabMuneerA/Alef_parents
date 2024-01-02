@@ -1,3 +1,4 @@
+import 'package:alef_parents/core/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,7 +39,7 @@ class _ReusableDropdownState<T> extends State<ReusableDropdown<T>> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
         border: Border.all(
-          color: Color.fromARGB(255, 87, 77, 205), // Set your border color here
+          color: primaryColor, // Set your border color here
           width: 1.0,
         ),
       ),
@@ -62,8 +63,9 @@ class _ReusableDropdownState<T> extends State<ReusableDropdown<T>> {
                         : widget.hintText,
                     style: TextStyle(
                       fontSize: 16.0,
-                      
-                      color: Color.fromARGB(255, 87, 77, 205),
+                      color: widget.selectedValue != null
+                          ? Colors.black
+                          : primaryColor, // Use primaryColor for the hint text
                     ),
                   ),
                   Icon(
@@ -71,7 +73,7 @@ class _ReusableDropdownState<T> extends State<ReusableDropdown<T>> {
                         ? Icons.keyboard_arrow_up
                         : Icons.keyboard_arrow_down,
                     size: 24.0,
-                    color: Color.fromARGB(255, 87, 77, 205),
+                    color: primaryColor,
                   ),
                 ],
               ),
@@ -107,9 +109,9 @@ class _ReusableDropdownState<T> extends State<ReusableDropdown<T>> {
                       ),
                       child: Text(
                         widget.displayFunction(item),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16.0,
-                          color: Color.fromARGB(255, 87, 77, 205),
+                          color: primaryColor,
                         ),
                       ),
                     ),

@@ -1,9 +1,4 @@
-import 'package:alef_parents/Features/User_Profile/presentation/bloc/student_evaluation/student_evaluation_bloc.dart';
-import 'package:alef_parents/Features/payment/presentation/pages/payment_details_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:alef_parents/injection_container.dart' as di;
 
 class StudentDropDown extends StatefulWidget {
   final int studentId;
@@ -12,7 +7,8 @@ class StudentDropDown extends StatefulWidget {
   final int classId;
   final ValueChanged<String>? onChanged;
 
-  StudentDropDown({
+  const StudentDropDown({
+    super.key,
     required this.studentId,
     required this.classId,
     this.studentName,
@@ -21,6 +17,7 @@ class StudentDropDown extends StatefulWidget {
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _StudentDropDownState createState() => _StudentDropDownState();
 }
 
@@ -202,27 +199,39 @@ class _StudentDropDownState extends State<StudentDropDown> {
                         color: Colors.black,
                       ),
                     )
-                  : (isAttendanceReport || isEvaluationReport)
+                  : (isEvaluationReport)
                       ? IconButton(
                           onPressed: () {
-                            // Your custom logic for handling attendance or evaluation report
+                            // Handle the action for evaluation report
                           },
                           icon: const Icon(
-                            Icons.article_outlined,
+                            Icons
+                                .rate_review_outlined, // Replace with your evaluation report icon
                             size: 24.0,
                             color: Colors.black,
                           ),
                         )
-                      : IconButton(
-                          onPressed: () {
-                            // Your custom logic for the other options
-                          },
-                          icon: const Icon(
-                            Icons.calendar_today,
-                            size: 24.0,
-                            color: Colors.black,
-                          ),
-                        ),
+                      : (isAttendanceReport)
+                          ? IconButton(
+                              onPressed: () {
+                                // Handle the action for attendance report
+                              },
+                              icon: const Icon(
+                                Icons.pie_chart_outline_sharp,
+                                size: 24.0,
+                                color: Colors.black,
+                              ),
+                            )
+                          : IconButton(
+                              onPressed: () {
+                                // Handle the action for other cases
+                              },
+                              icon: const Icon(
+                                Icons.calendar_today,
+                                size: 24.0,
+                                color: Colors.black,
+                              ),
+                            ),
             ),
           ],
         ),
@@ -230,98 +239,3 @@ class _StudentDropDownState extends State<StudentDropDown> {
     );
   }
 }
-
-//   Widget _buildDropdownOption(String label, String optionId) {
-//     bool isPayment = label.toLowerCase() == 'payment';
-
-//     return InkWell(
-//       onTap: () {
-//         setState(() {
-//           _isDropdownOpen = false;
-//         });
-
-//         // Check if the selected option is 'Payment'
-//         if (isPayment) {
-//           // Navigate to PaymentDetailsPage
-//           Navigator.pushNamed(
-//             context,
-//             '/paymentDetails',
-//             arguments: {'studentId': widget.studentId},
-//           );
-//         } else if (label.toLowerCase() == 'evaluation report') {
-//           // Navigate to StudentReportPage for evaluation report
-//           Navigator.pushNamed(
-//             context,
-//             '/student-report',
-//             arguments: {'studentId': widget.studentId},
-//           );
-//         } else if (label.toLowerCase() == 'attendance report') {
-//           // Add your download logic here for attendance report
-//           // For now, let's navigate to AttendanceReportPage
-//           Navigator.pushNamed(
-//             context,
-//             '/student-attendance',
-//             arguments: {'studentId': widget.studentId},
-//           );
-//         } else if (label.toLowerCase() == 'Calendar Event') {
-//           Navigator.pushNamed(
-//             context,
-//             '/student-calendar',
-//             arguments: {'classId': widget.classId},
-//           );
-//         } else {
-//           // Include the student ID in the callback for other options
-//           widget.onChanged?.call('${widget.studentId}');
-//         }
-//       },
-//       child: Padding(
-//         padding: const EdgeInsets.symmetric(
-//           vertical: 12.0,
-//           horizontal: 16.0,
-//         ),
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//           children: [
-//             Text(
-//               label,
-//               style: const TextStyle(
-//                 fontSize: 16.0,
-//                 fontWeight: FontWeight.bold,
-//                 color: Colors.black,
-//               ),
-//             ),
-//             Align(
-//               alignment: Alignment.topRight,
-//               child: isPayment
-//                   ? IconButton(
-//                       onPressed: () {
-//                         Navigator.pushNamed(
-//                           context,
-//                           '/payment-details',
-//                           arguments: {
-//                             'studentId': widget.studentId,
-//                           },
-//                         );
-//                       },
-//                       icon: const Icon(
-//                         Icons.monetization_on_outlined,
-//                         size: 24.0,
-//                         color: Colors.black,
-//                       ),
-//                     )
-//                   : IconButton(
-//                       onPressed: () {
-//                       },
-//                       icon: const Icon(
-//                         Icons.file_download_outlined,
-//                         size: 24.0,
-//                         color: Colors.black,
-//                       ),
-//                     ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

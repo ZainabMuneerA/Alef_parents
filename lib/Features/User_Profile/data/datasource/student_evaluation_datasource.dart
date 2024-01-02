@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:alef_parents/Features/User_Profile/domain/entity/student_evaluation.dart';
 import 'package:alef_parents/core/.env';
 import 'package:alef_parents/core/error/Exception.dart';
+import 'package:alef_parents/framework/shared_prefrences/UserPreferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:typed_data';
 
@@ -20,10 +21,13 @@ class StudentDataSourceImp implements StudentEvaluationDataSource {
   @override
   Future<Uint8List> getStudentEvaluation(int id) async {
     try {
+      final String? authToken = await UserPreferences.getToken();
+
       final response = await client.get(
-        Uri.parse(BASE_URL + "studentEvaluation/report/" + id.toString()),
+        Uri.parse("${BASE_URL}studentEvaluation/report/$id"),
         headers: {
-          "Accept": "application/pdf", // Specify that you expect a PDF response
+          "Accept": "application/pdf", 
+          "Authorization": "Bearer $authToken",// Specify that you expect a PDF response
         },
       );
 
@@ -44,8 +48,7 @@ class StudentDataSourceImp implements StudentEvaluationDataSource {
         throw ServerException();
       }
     } catch (error) {
-      print(error);
-      throw error;
+      rethrow;
     }
   }
 }

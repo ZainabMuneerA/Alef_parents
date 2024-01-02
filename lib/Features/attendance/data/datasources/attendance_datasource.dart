@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:alef_parents/Features/attendance/data/models/attendance_model.dart';
 import 'package:alef_parents/Features/attendance/data/models/attendance_status_model.dart';
 import 'package:alef_parents/core/error/Exception.dart';
+import 'package:alef_parents/framework/shared_prefrences/UserPreferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../core/.env';
@@ -24,11 +25,12 @@ class AttendanceDataSourceImp implements AttendanceDataSource {
 
   @override
   Future<List<AttendanceModel>> getAttendanceByStudentId(int studentId) async {
-    print("hi");
+        final String? authToken = await UserPreferences.getToken();
+
     try {
       final response = await client.get(
         Uri.parse("${BASE_URL}attendance/$studentId"),
-        headers: {"Content-Type": "application/json"},
+        headers: {"Content-Type": "application/json","Authorization": "Bearer $authToken",},
       );
       print(response.statusCode);
       if (response.statusCode == 200) {
@@ -52,9 +54,11 @@ class AttendanceDataSourceImp implements AttendanceDataSource {
   @override
   Future<AttendanceStatusModel> getAttendanceStatus(int studentId) async {
     try {
+            final String? authToken = await UserPreferences.getToken();
+
       final response = await client.get(
         Uri.parse("${BASE_URL}attendance/status/$studentId"),
-        headers: {"Content-Type": "application/json"},
+        headers: {"Content-Type": "application/json", "Authorization": "Bearer $authToken",},
       );
       if (response.statusCode == 200) {
         // Decode the JSON body response

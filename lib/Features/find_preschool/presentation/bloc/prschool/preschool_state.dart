@@ -14,7 +14,7 @@ class LoadingPreschoolState extends PreschoolState {}
 class LoadedPreschoolState extends PreschoolState {
   final List<Preschool> preschool;
 
-  LoadedPreschoolState({required this.preschool});
+  const LoadedPreschoolState({required this.preschool});
 
   @override
   List<Object> get props => [Preschool];
@@ -23,7 +23,7 @@ class LoadedPreschoolState extends PreschoolState {
 class ErrorPreschoolState extends PreschoolState {
   final String message;
 
-  ErrorPreschoolState({required this.message});
+ const ErrorPreschoolState({required this.message});
 
   @override
   List<Object> get props => [message];

@@ -127,7 +127,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   Auth auth = Auth();
                   auth.signOut();
                   // Handle Contact Us tap
-                  Navigator.pushNamed(context, '/login');
+                  // Remove all routes from the stack and push the login route
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil('/login', (route) => false);
                 },
               ),
             ],

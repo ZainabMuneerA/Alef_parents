@@ -4,12 +4,13 @@ import 'package:alef_parents/framework/shared_prefrences/UserPreferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../notifications/notifications.dart';
 
 class Auth {
-  final secureStorage = FlutterSecureStorage();
+  final secureStorage = const FlutterSecureStorage();
 
   Future<String?> createUserWithEmailAndPassword(
       String emailAddress, String password) async {
@@ -47,25 +48,23 @@ class Auth {
 
       User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-        try {
-          IdTokenResult tokenResult = await user.getIdTokenResult(true);
+        IdTokenResult tokenResult = await user.getIdTokenResult(true);
 
-          Map<String, dynamic>? customClaims = tokenResult.claims;
-          // Accessing dbId directly
-          final dbid = customClaims?['dbId'];
+        Map<String, dynamic>? customClaims = tokenResult.claims;
+        // Accessing dbId directly
+        final dbid = customClaims?['dbId'];
 
-          //saving the data
-          await UserPreferences.saveEmail(credential.user!.email ?? '');
-          await UserPreferences.saveUsername(
-              credential.user!.displayName ?? '');
-          await UserPreferences.saveUserId(dbid ?? 0);
+        //saving the data
+        await UserPreferences.saveEmail(credential.user!.email ?? '');
+        await UserPreferences.saveUsername(credential.user!.displayName ?? '');
+        await UserPreferences.saveUserId(dbid ?? 0);
+        await UserPreferences.saveToken(tokenResult.token ?? '');
 
-          if (Platform.isAndroid) {
-            await Notifications().initiNorification(credential.user!.uid);
-          }
-        } catch (e) {
-          print("Error accessing custom claims: $e");
+        if (Platform.isAndroid) {
+          await Notifications().initiNorification(credential.user!.uid);
         }
+      } else {
+        return 'Please try again';
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -73,25 +72,55 @@ class Auth {
       } else if (e.code == 'wrong-password') {
         return 'Wrong password.';
       } else if (e.code == 'invalid-login-credentials') {
-        return 'invalid login credentials';
+        // Access the more detailed error information provided by Firebase
+        if (e.message != null && e.message!.isNotEmpty) {
+          return 'Invalid login credentials: ${e.message}';
+        } else if (e.credential?.providerId == 'password') {
+          return 'Invalid login credentials: Please check your email and password.';
+        } else {
+          return 'Invalid login credentials.';
+        }
       }
-      return 'An error occurred $e';
+      return 'Error: ${e.message}';
     } catch (e) {
-      return 'An unexpected error occurred';
+      return 'An unexpected error occurred: $e';
     }
+    return null;
   }
 
-  // Save data
-  // await UserPreferences.saveEmail(credential.user!.email ?? '');
-  // await UserPreferences.saveUsername(credential.user!.displayName ?? '');
-
 //sign out
- Future<void> signOut() async {
-  await FirebaseAuth.instance.signOut();
-  await SharedPreferences.getInstance().then((prefs) => prefs.clear());
-}
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+    await SharedPreferences.getInstance().then((prefs) => prefs.clear());
+  }
 
-  //?google sevices ?? do i need this??
+  Future<bool> checkToken() async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        IdTokenResult tokenResult = await user.getIdTokenResult(true);
+
+        Map<String, dynamic>? decodedToken =
+            JwtDecoder.decode(tokenResult.token!);
+
+        if (decodedToken != null && decodedToken['exp'] != null) {
+          int expirationTimeInSeconds = decodedToken['exp'];
+          int currentTimeInSeconds =
+              DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000;
+          print(currentTimeInSeconds);
+          return expirationTimeInSeconds >= currentTimeInSeconds;
+        }
+      }
+    } catch (e) {
+      print('Error during checkToken: $e');
+    }
+
+    // Return false in case of an error or if the token is not valid
+    return false;
+  }
+
+  //?google sevices
 
   Future<UserCredential?> signInWithGoogle() async {
     try {
@@ -126,19 +155,4 @@ class Auth {
       return null; // Return null to indicate failure
     }
   }
-//* example
-
-// final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-// final User? user = userCredential.user;
-
-// if (user != null) {
-//   // Access user information
-//   String uid = user.uid;
-//   String displayName = user.displayName ?? "";
-//   String email = user.email ?? "";
-
-//   // Save data to secure storage or other storage mechanisms
-//   await secureStorage.write(key: 'userID', value: uid);
-//   await secureStorage.write(key: 'username', value: displayName);
-// }
 }

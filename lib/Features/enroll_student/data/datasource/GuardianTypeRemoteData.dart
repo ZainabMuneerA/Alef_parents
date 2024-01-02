@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:alef_parents/Features/enroll_student/data/model/GuardianTypeModel.dart';
+import 'package:alef_parents/framework/shared_prefrences/UserPreferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../core/.env';
@@ -10,7 +11,6 @@ abstract class GuardianDataSource {
   Future<List<GuardianTypeModel>> guardianType();
 }
 
-// const BASE_URL = "http://localhost:3000/staticValues/";
 
 class GuardianDataSourceImp implements GuardianDataSource {
   final http.Client client;
@@ -20,13 +20,13 @@ class GuardianDataSourceImp implements GuardianDataSource {
   @override
   Future<List<GuardianTypeModel>> guardianType() async {
     try {
+     final String? authToken = await UserPreferences.getToken();
+
       final response = await client.get(
-        Uri.parse(BASE_URL + "staticValues/guardianTypes"),
-        headers: {"Content-Type": "application/json"},
+        Uri.parse("${BASE_URL}staticValues/guardianTypes"),
+        headers: {"Content-Type": "application/json","Authorization": "Bearer $authToken",},
       );
 
-      print("Response status code: ${response.statusCode}");
-      print("Response body: ${response.body}");
 
       if (response.statusCode == 200) {
         // Decode the JSON body response

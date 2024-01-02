@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:alef_parents/core/error/Exception.dart';
@@ -10,6 +12,7 @@ abstract class PreschoolLocalDataSource {
   Future<Unit> cachedPreschool(List<PreschoolModel> preschoolModel);
 }
 
+// ignore: constant_identifier_names
 const CACHED_PRESCHOOL = "CACHED_PRESCHOOL";
 
 class PreschoolLocalDataSourceImp implements PreschoolLocalDataSource {
@@ -20,6 +23,7 @@ class PreschoolLocalDataSourceImp implements PreschoolLocalDataSource {
   @override
   Future<Unit> cachedPreschool(List<PreschoolModel> preschoolModel) {
     List PreschoolModelToJson = preschoolModel
+        // ignore: avoid_types_as_parameter_names
         .map<Map<String, dynamic>>((PreschoolModel) => PreschoolModel.toJson())
         .toList();
     sharedPreferences.setString(

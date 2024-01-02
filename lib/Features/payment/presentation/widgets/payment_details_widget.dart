@@ -75,9 +75,8 @@ class PaymentDetailsList extends StatelessWidget {
                   child: Text(
                     status,
                     style: const TextStyle(
-                      fontSize: 14,
+                      fontSize: 16,
                       color: Colors.white,
-                      fontWeight: FontWeight.bold,
                       shadows: [
                         Shadow(
                           color: Colors.black,
@@ -103,8 +102,7 @@ class PaymentDetailsList extends StatelessWidget {
                   Text(
                     feeName,
                     style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
                     ),
                   ),
                   const SizedBox(height: 5),

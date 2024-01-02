@@ -74,6 +74,8 @@ dependencies:
   firebase_installations: ^16.3.6
   add_2_calendar: ^2.2.5
   pie_chart: ^5.4.0
+  jwt_decoder: ^2.0.1
+  flutter_native_splash: ^2.3.7
   # dcdg: ^4.1.0
 
 dev_dependencies:

@@ -1,3 +1,4 @@
+import 'package:alef_parents/core/app_theme.dart';
 import 'package:flutter/material.dart';
 
 
@@ -10,8 +11,7 @@ class ReusableInputField extends StatelessWidget {
   final bool isMultiline;
   final bool isEmail;
   final bool isPassword;
-  static const primaryColor = Color.fromARGB(255, 87, 77, 205);
-  static const secondaryColor = Color(0xff6D28D9);
+  //static  primaryColor = primaryColor;
   static const accentColor = Color(0xffffffff);
   static const errorColor = Color(0xffEF4444);
 
@@ -34,14 +34,14 @@ class ReusableInputField extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.normal,
-              color: Colors.white.withOpacity(.9),
-            ),
-          ),
+          // Text(
+          //   label,
+          //   style: TextStyle(
+          //     fontSize: 14,
+          //     fontWeight: FontWeight.normal,
+          //     color: Colors.white.withOpacity(.9),
+          //   ),
+          // ),
           const SizedBox(
             height: 8,
           ),
@@ -72,23 +72,23 @@ class ReusableInputField extends StatelessWidget {
                       style: const TextStyle(fontSize: 14, color: Colors.black),
                       decoration: InputDecoration(
                         labelText: isEmail ? null : label,
-                        labelStyle: const TextStyle(color: primaryColor),
+                        labelStyle:  TextStyle(color: primaryColor),
                         filled: true,
                         fillColor: accentColor,
                         hintText: hintText,
-                        hintStyle: const TextStyle(color: secondaryColor),
+                        hintStyle:  TextStyle(color: primaryColor),
                         contentPadding: const EdgeInsets.symmetric(
                           vertical: 20.0,
                           horizontal: 20.0,
                         ),
                         border: OutlineInputBorder(
                           borderSide:
-                              const BorderSide(color: primaryColor, width: 1.0),
+                               BorderSide(color: primaryColor, width: 1.0),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              const BorderSide(color: secondaryColor, width: 1.0),
+                               BorderSide(color: primaryColor, width: 1.0),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         errorBorder: OutlineInputBorder(
@@ -97,7 +97,7 @@ class ReusableInputField extends StatelessWidget {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              const BorderSide(color: primaryColor, width: 1.0),
+                               BorderSide(color: primaryColor, width: 1.0),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
@@ -117,7 +117,7 @@ class ReusableInputField extends StatelessWidget {
       },
       keyboardType: TextInputType.multiline,
       maxLines: null,
-      style: const TextStyle(fontSize: 14, color: secondaryColor),
+      style:  TextStyle(fontSize: 14, color: primaryColor),
       decoration: InputDecoration(
         labelText: label,
         labelStyle: const TextStyle(color: Colors.white),
@@ -126,9 +126,9 @@ class ReusableInputField extends StatelessWidget {
         hintText: hintText,
         hintStyle: TextStyle(color: Colors.grey.withOpacity(.75)),
         contentPadding: const EdgeInsets.all(20.0),
-        border: const OutlineInputBorder(
+        border:  OutlineInputBorder(
           borderSide: BorderSide(color: primaryColor, width: 1.0),
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
         ),
       ),
     );
@@ -163,24 +163,24 @@ class _FloatingLabelTextFieldState extends State<FloatingLabelTextField> {
           labelText: _isFocused ? widget.hintText : null,
           labelStyle: TextStyle(
             color: _isFocused
-                ? const Color.fromARGB(255, 87, 77, 205)
-                : const Color.fromARGB(255, 87, 77, 205),
+                ? primaryColor
+                : primaryColor,
           ),
           hintText: _isFocused ? null : widget.hintText,
-          hintStyle: const TextStyle(color: Color.fromARGB(255, 87, 77, 205)),
+          hintStyle:  TextStyle(color: primaryColor),
           contentPadding: const EdgeInsets.all(20.0),
           border: OutlineInputBorder(
             borderSide:
-                const BorderSide(color: Color.fromARGB(255, 87, 77, 205), width: 1.0),
+                 BorderSide(color: primaryColor, width: 1.0),
             borderRadius: BorderRadius.circular(10.0),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Color(0xff6D28D9), width: 1.0),
+            borderSide:  BorderSide(color: primaryColor, width: 1.0),
             borderRadius: BorderRadius.circular(10.0),
           ),
           enabledBorder: OutlineInputBorder(
             borderSide:
-                const BorderSide(color: Color.fromARGB(255, 87, 77, 205), width: 1.0),
+                 BorderSide(color: primaryColor, width: 1.0),
             borderRadius: BorderRadius.circular(10.0),
           ),
         ),

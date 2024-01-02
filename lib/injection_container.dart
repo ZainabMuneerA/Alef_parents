@@ -38,6 +38,7 @@ import 'package:alef_parents/Features/enroll_student/domain/repository/guardianT
 import 'package:alef_parents/Features/enroll_student/domain/usecase/ApplyToPreschool.dart';
 import 'package:alef_parents/Features/enroll_student/domain/usecase/GetMyApplication.dart';
 import 'package:alef_parents/Features/enroll_student/domain/usecase/GuardianType.dart';
+import 'package:alef_parents/Features/enroll_student/domain/usecase/cancel_application_usecase.dart';
 import 'package:alef_parents/Features/enroll_student/presentation/bloc/Application/application_bloc.dart';
 import 'package:alef_parents/Features/enroll_student/presentation/bloc/GuardianType/bloc/guardian_type_bloc.dart';
 import 'package:alef_parents/Features/events/data/datasources/events_datasource.dart';
@@ -86,7 +87,7 @@ final sl = GetIt.instance;
 Future<void> init() async {
 //! feature (find preschool)
 
-//?bloc
+//* BLOC
   sl.registerFactory(() => PreschoolBloc(getAllPreschool: sl()));
   sl.registerFactory(() => SearchBloc(
       getPreschoolById: sl(),
@@ -96,7 +97,9 @@ Future<void> init() async {
   sl.registerFactory(() => LoginBloc(loginUseCase: sl()));
   sl.registerFactory(() => GuardianTypeBloc(guardianTypeUseCase: sl()));
   sl.registerFactory(() => ApplicationBloc(
-      applyToPreschoolUseCase: sl(), getApplicationUseCase: sl()));
+      applyToPreschoolUseCase: sl(),
+      getApplicationUseCase: sl(),
+      cancelApplicationUseCase: sl()));
   sl.registerFactory(() => RegisterBloc(registerUseCase: sl()));
   sl.registerFactory(() => AppointmentBloc(appointmentUseCase: sl()));
   sl.registerFactory(() => TimeBloc(getAvailableTime: sl()));
@@ -114,7 +117,7 @@ Future<void> init() async {
   sl.registerFactory(() =>
       AttendanceBloc(getAttendanceByStudentId: sl(), attendanceStatus: sl()));
 
-//?usecases
+//* USECASES
   sl.registerLazySingleton(() => GetAllPreschoolsUseCase(repository: sl()));
   sl.registerLazySingleton(() => GetPreschoolByIdUseCase(repository: sl()));
   sl.registerLazySingleton(() => GetPreschoolByNameUseCase(repository: sl()));
@@ -140,8 +143,9 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetEventByClass(repository: sl()));
   sl.registerLazySingleton(() => AttendanceUseCase(repository: sl()));
   sl.registerLazySingleton(() => AttendanceStatusUseCase(repository: sl()));
+  sl.registerLazySingleton(() => CancelApplicationUseCase(repository: sl()));
 
-//?repo
+//* REPOSITORIES
   sl.registerLazySingleton<PreschoolRepository>(() => PreschoolRepositoryImp(
       networkInfo: sl(),
       preschoolLocalDataSource: sl(),
@@ -181,7 +185,10 @@ Future<void> init() async {
   sl.registerLazySingleton<AttendanceRepository>(
       () => AttendanceRepositoryImp(dataSource: sl(), networkInfo: sl()));
 
-//? datasources
+
+
+
+//* DATASOURSES
   sl.registerLazySingleton<PreschoolRemoteDataSource>(
       () => PreschoolRemoteDataSourceImp(sl()));
 
@@ -196,8 +203,6 @@ Future<void> init() async {
   sl.registerLazySingleton<ApplicationRemoteData>(
       () => ApplicationDioDataImp(dio: sl()));
 
-  // sl.registerLazySingleton<ApplicationRemoteData>(
-  //   () => ApplicationRemoteDataImp(client: sl()));
 
   sl.registerLazySingleton<RegisterDataSource>(
       () => RegisterDataSourceImp(sl()));
@@ -220,6 +225,9 @@ Future<void> init() async {
 
   sl.registerLazySingleton<AttendanceDataSource>(
       () => AttendanceDataSourceImp(client: sl()));
+
+
+
 
 //! core
   sl.registerLazySingleton<NetworkInfo>(

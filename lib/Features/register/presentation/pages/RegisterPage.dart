@@ -1,16 +1,11 @@
-import 'package:alef_parents/core/widget/loading_widget.dart';
 import 'package:alef_parents/core/widget/reuseable_input.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:alef_parents/injection_container.dart' as di;
-// import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/app_theme.dart';
-// import '../../../../core/shared/Navigation/presentation/widget/AppNavigationBar.dart';
 import '../../../../core/shared/Navigation/presentation/widget/ArchWidget.dart';
 import 'package:alef_parents/injection_container.dart' as di;
 import '../../../../generated/l10n.dart';
-import '../../../Login/presentation/widget/googleBtn.dart';
 import '../Bloc/register/register_bloc.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -36,35 +31,40 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  void _register() async {
-    String email = _emailController.text;
-    String name = _nameController.text;
-    String password = _passwordController.text;
-    String confirmPassword = _confirmPasswordController.text;
+ void _register() async {
+  String email = _emailController.text;
+  String name = _nameController.text;
+  String password = _passwordController.text;
+  String confirmPassword = _confirmPasswordController.text;
 
-    if (email.isEmpty &&
-        password.isEmpty &&
-        confirmPassword.isEmpty &&
-        name.isEmpty) {
+  if (email.isEmpty && password.isEmpty && confirmPassword.isEmpty && name.isEmpty) {
+    setState(() {
       registerError = 'Please fill all the fields';
-    } else if (password != confirmPassword) {
+    });
+  } else if (password != confirmPassword) {
+    setState(() {
       registerError = 'Passwords do not match';
-    } else {
-      try {
-        print("registering....");
-        // Use dependency injection to get the LoginBloc
-        RegisterBloc loginBloc = di.sl<RegisterBloc>();
+    });
+  } else {
+    try {
+      print("registering....");
+      // Use dependency injection to get the RegisterBloc
+      RegisterBloc registerBloc = di.sl<RegisterBloc>();
 
-        // Dispatch the login event to the existing bloc
-        loginBloc.add(RegisterUserEvent(email, name, password));
-        
+      // Dispatch the registration event to the existing bloc
+       registerBloc.add(RegisterUserEvent(email, name, password));
+       
+          // Registration successful, navigate to home page
+          Navigator.pushReplacementNamed(context, '/home');
+     
     
-      } catch (error) {
-        // Handle other errors
-        print("Error during register: $error");
-      }
+    } catch (error) {
+      // Handle other errors
+      print("Error during register: $error");
     }
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -179,8 +179,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: Text(
                           S.of(context).register,
                           style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
                             color: Colors.white,
                           ),
                         ),

@@ -23,12 +23,12 @@ final appTheme = ThemeData(
         fontFamily: GoogleFonts.chewy().fontFamily,
         fontWeight: FontWeight.w100,
       ),
-     labelLarge: TextStyle(
+      labelLarge: TextStyle(
         fontFamily: GoogleFonts.chewy().fontFamily,
         fontWeight: FontWeight.w100,
       ),
 
-     //architectsDaughter
+      //architectsDaughter
 
       // Add more text styles as needed
     ),
@@ -73,5 +73,3 @@ BoxDecoration getContainerDecoration() {
     ],
   );
 }
-
-// andi "http://10.0.2.2:3000/"";

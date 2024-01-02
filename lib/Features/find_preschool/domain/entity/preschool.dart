@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:equatable/equatable.dart';
 
 import '../../data/model/addressModel.dart';
@@ -17,7 +19,7 @@ class Preschool extends Equatable {
   final String? logo;
   final List<String>? file;
 
-  Preschool(
+ const Preschool(
       {required this.preschool_id,
       required this.preschool_name,
       this.phone,

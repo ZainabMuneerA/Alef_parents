@@ -52,7 +52,7 @@ class AttendancePiechartWidget extends StatelessWidget {
               ),
             );
           } else {
-            return const LoadingWidget();
+            return  Container();
           }
         },
       ),

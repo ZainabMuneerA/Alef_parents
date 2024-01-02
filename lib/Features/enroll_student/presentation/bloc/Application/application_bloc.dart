@@ -2,6 +2,7 @@ import 'package:alef_parents/Features/enroll_student/domain/entity/ApplicationRe
 import 'package:alef_parents/Features/enroll_student/domain/entity/Enrollment.dart';
 import 'package:alef_parents/Features/enroll_student/domain/usecase/ApplyToPreschool.dart';
 import 'package:alef_parents/Features/enroll_student/domain/usecase/GetMyApplication.dart';
+import 'package:alef_parents/Features/enroll_student/domain/usecase/cancel_application_usecase.dart';
 import 'package:alef_parents/core/error/Exception.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
@@ -16,10 +17,12 @@ part 'application_state.dart';
 class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationState> {
   final GetApplicationUseCase getApplicationUseCase;
   final ApplyToPreschoolUseCase applyToPreschoolUseCase;
+  final CancelApplicationUseCase cancelApplicationUseCase;
 
   ApplicationBloc({
     required this.applyToPreschoolUseCase,
     required this.getApplicationUseCase,
+    required this.cancelApplicationUseCase,
   }) : super(ApplicationInitial()) {
     on<ApplicationEvent>((event, emit) async {
       if (event is GetApplicationEvent) {
@@ -29,13 +32,15 @@ class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationState> {
           final failureOrApplication = await getApplicationUseCase(event.id);
           print(failureOrApplication);
           emit(_mapFailureOrApplicationToState(failureOrApplication));
-        } on NoDataYetException catch (e){
+        } on NoDataYetException catch (e) {
           emit(NoDataState(message: e.message));
-          }catch (error) {
+        } catch (error) {
           print('Error in GetApplicationEvent: $error');
           emit(ErrorApplicationState(message: 'Unexpected error occurred'));
         }
-      } else if (event is EnrollmentEvent) {
+      }  
+      
+      if (event is EnrollmentEvent) {
         emit(LoadingApplicationState());
 
         try {
@@ -43,6 +48,21 @@ class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationState> {
               await applyToPreschoolUseCase(event.request);
 
           emit(_mapFailureOrEnrollmentToState(failureOrEnrollment));
+        } on NoDataYetException catch (e) {
+          emit(NoDataState(message: e.message));
+        } catch (error) {
+          emit(ErrorApplicationState(message: 'Unexpected error occurred'));
+        }
+      } if (event is CancelApplicationEvent) {
+        
+        emit(LoadingApplicationState());
+
+        try {
+          final failureOrCancel = await cancelApplicationUseCase(event.id);
+          print(failureOrCancel);
+          emit(_mapFailureOrCancelToState(failureOrCancel));
+        } on NoDataYetException catch (e) {
+          emit(NoDataState(message: e.message));
         } catch (error) {
           emit(ErrorApplicationState(message: 'Unexpected error occurred'));
         }
@@ -65,6 +85,14 @@ class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationState> {
       (failure) =>
           ErrorApplicationState(message: _mapFailureToMessage(failure)),
       (enrollment) => LoadedEnrollmentState(enrollment: enrollment),
+    );
+  }
+
+  ApplicationState _mapFailureOrCancelToState(Either<Failure, String> either) {
+    return either.fold(
+      (failure) =>
+          ErrorApplicationState(message: _mapFailureToMessage(failure)),
+      (message) => LoadedCancelEnrollmentState(message: message),
     );
   }
 

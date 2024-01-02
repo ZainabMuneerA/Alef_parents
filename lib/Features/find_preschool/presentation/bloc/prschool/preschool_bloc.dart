@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../../core/error/strings/failure.dart';
 import '../../../domain/entity/preschool.dart';
 part 'preschool_state.dart';
 part 'preschool_event.dart';
@@ -20,21 +19,15 @@ class PreschoolBloc extends Bloc<PreschoolEvent, PreschoolState> {
         emit(LoadingPreschoolState());
 
         try {
-          // Debug statement to indicate that the event is being processed
-          print('Event: $event');
-
+       
+//get the preschool 
           final failureOrPreschool = await getAllPreschool();
-
-          // Debug statement to indicate the result of the getAllPreschool() function
-          print('getAllPreschool result: $failureOrPreschool');
 
           emit(_mapFailureOrPreschoolToState(failureOrPreschool));
         } catch (error) {
-          // Debug statement to indicate any errors that occur during event processing
-          print('Error during event processing: $error');
 
           // Emitting ErrorPreschoolState with an appropriate error message
-          emit(ErrorPreschoolState(message: 'An error occurred'));
+          emit(const ErrorPreschoolState(message: 'An error occurred'));
         }
       }
     });

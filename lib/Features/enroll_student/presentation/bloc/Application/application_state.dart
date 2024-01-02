@@ -14,7 +14,7 @@ final class LoadingApplicationState extends ApplicationState {}
 final class LoadedApplicationState extends ApplicationState {
   final List<EnrollmentStatus> application;
 
-  LoadedApplicationState({required this.application});
+  const LoadedApplicationState({required this.application});
 
    @override
   List<Object> get props => [application];
@@ -23,10 +23,19 @@ final class LoadedApplicationState extends ApplicationState {
 final class LoadedEnrollmentState extends ApplicationState {
   final Enrollment enrollment;
 
-  LoadedEnrollmentState({required this.enrollment});
+  const LoadedEnrollmentState({required this.enrollment});
 
    @override
   List<Object> get props => [enrollment];
+}
+
+final class LoadedCancelEnrollmentState extends ApplicationState {
+  final String message;
+
+  const LoadedCancelEnrollmentState({required this.message});
+
+   @override
+  List<Object> get props => [message];
 }
 
 class ErrorApplicationState extends ApplicationState {

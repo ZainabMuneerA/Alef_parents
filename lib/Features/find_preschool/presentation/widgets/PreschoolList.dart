@@ -25,7 +25,7 @@ class PreschoolList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 390,
+      // width: 390,
       height: 115,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -116,7 +116,7 @@ class PreschoolListing extends StatelessWidget {
     return Column(
       children: preschools.map((preschool) {
         return Padding(
-          padding: const EdgeInsets.only(bottom: 16),
+          padding: const EdgeInsets.only(bottom: 16, right: 16, left: 16),
           child: GestureDetector(
             onTap: () {
               // Navigate to PreschoolProfile using the named route and pass the preschool_id

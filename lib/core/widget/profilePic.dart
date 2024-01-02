@@ -45,7 +45,7 @@ class ProfilePic extends StatelessWidget {
       radius: radius,
       backgroundImage: imageUrl != null && imageUrl!.isNotEmpty && !isAssets
           ? NetworkImage(imageUrl!)
-          : AssetImage(isAssets && assetImage.isNotEmpty ? assetImage : 'lib/assets/images/defaultImage.jpeg') as ImageProvider,
+          : AssetImage(isAssets && assetImage.isNotEmpty ? assetImage : 'lib/assets/images/imageHolder.jpeg') as ImageProvider,
     );
   }
 }

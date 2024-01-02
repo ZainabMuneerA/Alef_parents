@@ -4,6 +4,7 @@ import 'package:alef_parents/Features/events/data/models/events_model.dart';
 import 'package:alef_parents/Features/events/domain/entities/events.dart';
 import 'package:alef_parents/core/.env';
 import 'package:alef_parents/core/error/Exception.dart';
+import 'package:alef_parents/framework/shared_prefrences/UserPreferences.dart';
 import 'package:http/http.dart' as http;
 
 abstract class EventsDatasource {
@@ -18,9 +19,11 @@ class EventDatasourceImp implements EventsDatasource {
   @override
   Future<List<Events>> getEventsByClass(int classId) async {
     try {
+      final String? authToken = await UserPreferences.getToken();
+
       final response = await client.get(
-        Uri.parse(BASE_URL + "events?class_id=$classId"),
-        headers: {"Content-Type": "application/json"},
+        Uri.parse("${BASE_URL}events?class_id=$classId"),
+        headers: {"Content-Type": "application/json","Authorization": "Bearer $authToken",},
       );
 
       if (response.statusCode == 200) {
@@ -40,7 +43,7 @@ class EventDatasourceImp implements EventsDatasource {
       }
     } catch (error) {
       print("Error during get event: $error");
-      throw error;
+      rethrow;
     }
   }
 }

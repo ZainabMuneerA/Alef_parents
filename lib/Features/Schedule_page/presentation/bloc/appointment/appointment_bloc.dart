@@ -29,13 +29,8 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
 
           final failureOrLoged = await appointmentUseCase(event.request);
 
-          // Debug statement to indicate the result of the getAllPreschool() function
-          print('appointment in bloc result: $failureOrLoged');
-
           emit(_mapFailureOrScheduledToState(failureOrLoged));
         } catch (error) {
-          // Debug statement to indicate any errors that occur during event processing
-          print('Error during event processing: $error');
 
           // Emitting ErrorPreschoolState with an appropriate error message
           emit(ErrorScheduleState(message: 'An error occurred'));

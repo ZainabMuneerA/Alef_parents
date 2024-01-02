@@ -22,6 +22,7 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
   Widget build(BuildContext context) {
     return BottomAppBar(
       color: Colors.white,
+      shape: const CircularNotchedRectangle(),
       child: SizedBox(
         height: 56,
         width: MediaQuery.of(context).size.width,
@@ -55,14 +56,6 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
                 },
               ),
               // Add the remaining bottom bar icons here
-              //  IconBottomBar(
-              //   text: S.of(context).preschool,
-              //   icon: Icons.holiday_village,
-              //   selected: widget.selectedIndex == 3,
-              //   onPressed: () {
-              //     widget.onItemTapped(3);
-              //   },
-              // ),
             ],
           ),
         ),

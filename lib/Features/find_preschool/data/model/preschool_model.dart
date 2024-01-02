@@ -1,9 +1,10 @@
-import '../../domain/entity/address.dart';
+// ignore_for_file: non_constant_identifier_names
+
 import '../../domain/entity/preschool.dart';
 import 'addressModel.dart';
 
 class PreschoolModel extends Preschool {
-  PreschoolModel({
+  const PreschoolModel({
     required super.preschool_id,
     required super.preschool_name,
     required super.phone,

@@ -11,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class PaymentDetailsPage extends StatelessWidget {
   final int studentId;
 
-  PaymentDetailsPage({
+  const PaymentDetailsPage({
     required this.studentId,
   });
 
@@ -46,7 +46,7 @@ class PaymentDetailsPage extends StatelessWidget {
                 } else if (state is ErrorOutstandingState) {
                   return Text(state.message); // Display an error message
                 } else {
-                  return const Center(child: Text("Unexpected state"));
+                  return const Center(child: Text("Unexpected Error"));
                 }
               },
             ),

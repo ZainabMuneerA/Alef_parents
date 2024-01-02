@@ -7,6 +7,7 @@ import '../../../../core/app_theme.dart';
 import '../../../../core/shared/Navigation/presentation/widget/ArchWidget.dart';
 import '../../../../core/widget/loading_widget.dart';
 import '../../../../core/widget/profilePic.dart';
+import '../../../../framework/shared_prefrences/UserPreferences.dart';
 import '../../../enroll_student/presentation/pages/EnrollStudent.dart';
 
 import '../bloc/search/search_bloc.dart';
@@ -511,17 +512,41 @@ class _PreschoolProfileState extends State<PreschoolProfile> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    _preschoolName = state.preschool.preschool_name;
-                    Navigator.pushNamed(
-                      context,
-                      '/enroll',
-                      arguments: {
-                        'preschoolId': state.preschool.preschool_id,
-                        'preschoolName': state.preschool.preschool_name
-                      },
-                    );
-                  },
+                onPressed: () async {
+    // Check if the user is logged in
+    final userId = await UserPreferences.getUserId();
+    if (userId != null) {
+      // User is logged in, proceed with enrollment
+      _preschoolName = state.preschool.preschool_name;
+      Navigator.pushNamed(
+        context,
+        '/enroll',
+        arguments: {
+          'preschoolId': state.preschool.preschool_id,
+          'preschoolName': state.preschool.preschool_name,
+        },
+      );
+    } else {
+      // User is not logged in, display a message
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Login Required'),
+            content: Text('You need to log in to enroll.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context); // Close the dialog
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16.0),

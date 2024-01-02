@@ -70,7 +70,7 @@ class ContactUsPage extends StatelessWidget {
   }
 
   Future sendEmai() async {
-  _launchEmail() async {
+
     final Uri emailLaunchUri = Uri(
       scheme: 'mailto',
       path: 'Alef.preschool@gmail.com',
@@ -82,6 +82,6 @@ class ContactUsPage extends StatelessWidget {
     } else {
       print('Could not launch email');
     }
-  }
+  
   }
 }
