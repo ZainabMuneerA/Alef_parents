@@ -7,7 +7,7 @@ class StudentEvaluation extends Equatable {
 
   final List<int> pdfBytes;
 
-  StudentEvaluation({
+  const StudentEvaluation({
     required this.id,
    
     required this.pdfBytes,

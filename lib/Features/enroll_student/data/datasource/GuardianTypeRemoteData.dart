@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:alef_parents/Features/enroll_student/data/model/GuardianTypeModel.dart';
+import 'package:alef_parents/framework/services/auth/auth.dart';
 import 'package:alef_parents/framework/shared_prefrences/UserPreferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,7 +21,8 @@ class GuardianDataSourceImp implements GuardianDataSource {
   @override
   Future<List<GuardianTypeModel>> guardianType() async {
     try {
-     final String? authToken = await UserPreferences.getToken();
+            String? authToken = await AuthenticationUtils.getUserToken();
+
 
       final response = await client.get(
         Uri.parse("${BASE_URL}staticValues/guardianTypes"),

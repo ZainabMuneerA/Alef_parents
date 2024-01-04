@@ -206,7 +206,7 @@ class _SchedulePageState extends State<SchedulePage> {
           btnText: 'Save Appointment',
           onPressed: () {
             _addToCalendar();
-           // Navigator.pushNamed(context, '/home');
+           Navigator.pushNamed(context, '/home');
           },
         );
       },

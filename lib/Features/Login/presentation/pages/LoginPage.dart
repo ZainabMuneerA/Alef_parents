@@ -45,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
         }
       } catch (error) {
         // Handle other errors
+        loginError = error.toString();
         print("Error during login: $error");
       }
     } else {

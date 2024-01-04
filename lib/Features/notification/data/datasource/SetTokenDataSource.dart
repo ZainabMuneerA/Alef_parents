@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:alef_parents/Features/notification/data/model/SetTokenModel.dart';
+import 'package:alef_parents/framework/services/auth/auth.dart';
 import 'package:alef_parents/framework/shared_prefrences/UserPreferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,7 +22,8 @@ class SetTokenDataSourceImp implements SetTokenDataSource {
 @override
 void setToken(String uid, String token) async {
   try {
- final String? authToken = await UserPreferences.getToken();
+        String? authToken = await AuthenticationUtils.getUserToken();
+
 
     final response = await client.post(
       Uri.parse("${BASE_URL}notifications/setToken"),

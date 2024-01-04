@@ -5,6 +5,7 @@ import 'package:alef_parents/Features/outstanding/data/models/outstanding_model.
 import 'package:alef_parents/Features/outstanding/domain/entities/bill.dart';
 import 'package:alef_parents/core/.env';
 import 'package:alef_parents/core/error/Exception.dart';
+import 'package:alef_parents/framework/services/auth/auth.dart';
 import 'package:alef_parents/framework/shared_prefrences/UserPreferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -52,7 +53,8 @@ class OutstandingDatasourceImp implements OutstandingDatasource {
   @override
   Future<BillModel> updateOutstanding(int paymentId) async {
     try {
-      final String? authToken = await UserPreferences.getToken();
+             String? authToken = await AuthenticationUtils.getUserToken();
+
 
       final response = await client.put(
         Uri.parse('${BASE_URL}payments/$paymentId'),

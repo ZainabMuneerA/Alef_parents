@@ -4,6 +4,7 @@ import 'package:alef_parents/Features/Schedule_page/data/model/available_slots.d
 import 'package:alef_parents/Features/Schedule_page/data/model/scheduledModel.dart';
 import 'package:alef_parents/Features/Schedule_page/domain/entity/appointment_request.dart';
 import 'package:alef_parents/Features/Schedule_page/domain/entity/available_slots.dart';
+import 'package:alef_parents/framework/services/auth/auth.dart';
 import 'package:alef_parents/framework/shared_prefrences/UserPreferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -26,13 +27,16 @@ class AppointmentDataSourceImp implements AppointmentDataSource {
   @override
   Future<ScheduledModel> schedule(AppointmentRequest appointmentRequest) async {
     try {
-      final String? authToken = await UserPreferences.getToken();
+      String? authToken = await AuthenticationUtils.getUserToken();
+
       final response = await client.post(
         Uri.parse("${BASE_URL}appointments/"),
-        headers: {"Content-Type": "application/json", "Authorization": "Bearer $authToken",},
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $authToken",
+        },
         body: json.encode(appointmentRequest.toJson()),
       );
-
 
       if (response.statusCode == 201) {
         // Decode the JSON body response
@@ -57,14 +61,17 @@ class AppointmentDataSourceImp implements AppointmentDataSource {
   Future<AvailableSlots> availableSlots(int preschoolId, String date) async {
     //availableSlots?preschool=1&date=2023-12-04
     try {
-            final String? authToken = await UserPreferences.getToken();
+      String? authToken = await AuthenticationUtils.getUserToken();
 
       final response = await client.get(
         Uri.parse(
             '${BASE_URL}appointments/availableSlots?preschool=$preschoolId&date=$date'),
-        headers: {"Content-Type": "application/json","Authorization": "Bearer $authToken",},
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $authToken",
+        },
       );
-
+      print(response.statusCode);
       if (response.statusCode == 200) {
         // Decode the JSON body response
         final decodedJson = json.decode(response.body);

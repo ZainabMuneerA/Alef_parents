@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:alef_parents/Features/enroll_student/data/model/Enrollment.dart';
 import 'package:alef_parents/Features/enroll_student/domain/entity/ApplicationRequest.dart';
 import 'package:alef_parents/core/error/Failure.dart';
+import 'package:alef_parents/framework/services/auth/auth.dart';
 import 'package:alef_parents/framework/shared_prefrences/UserPreferences.dart';
 import 'package:dio/dio.dart';
 
@@ -49,7 +50,8 @@ class ApplicationDioDataImp implements ApplicationRemoteData {
             await MultipartFile.fromFile(request.certificateOfBirthPath.path),
         'passport': await MultipartFile.fromFile(request.passportPath.path),
       }); // create an instance of ApplicationRequest
-
+   //   _dio.interceptors();
+    _dio.interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
       final response = await _dio.post('${BASE_URL}applications',
           data: formData,
           options: Options(
@@ -82,16 +84,15 @@ class ApplicationDioDataImp implements ApplicationRemoteData {
   @override
   Future<List<EnrollmentStatusModel>> getAllApplication(int id) async {
     try {
-      final String? authToken = await UserPreferences.getToken();
-
+            String? authToken = await AuthenticationUtils.getUserToken();
       final response = await _dio.get(
-        '${BASE_URL}applications/?user_id=$id',
+        '${BASE_URL}applications?user_id=$id',
         options: Options(headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer $authToken",
+           "Authorization": "Bearer $authToken",
         }),
       );
-
+      print(response.statusCode);
       if (response.statusCode == 200) {
         //  print(response.data);
         final List<dynamic> decodedData = response.data;
@@ -104,8 +105,7 @@ class ApplicationDioDataImp implements ApplicationRemoteData {
         // return the data
         return enrollmentStatus;
       } else if (response.statusCode == 404) {
-        print("there is an error check this ");
-        print('the endpointtt: $BASE_URL/applications/?user_id=$id');
+
         throw ServerException();
       } else if (response.statusCode == 403) {
         throw ServerFailure();

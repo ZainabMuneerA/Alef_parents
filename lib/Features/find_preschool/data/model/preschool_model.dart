@@ -45,7 +45,7 @@ class PreschoolModel extends Preschool {
         : AddressModel(
             longitude: 0,
             latitude: 0,
-            area: 'No Area Data',
+            area: 'Manama',
             road: 'No Road Data',
             building: 'No Building Data',
           ),

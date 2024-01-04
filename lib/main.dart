@@ -103,7 +103,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     if (validToken == null) {
-      return CircularProgressIndicator();
+      return LoadingWidget();
     }
     return FutureBuilder<Locale>(
       future: savedLocale,

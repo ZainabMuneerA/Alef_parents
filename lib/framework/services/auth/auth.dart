@@ -120,6 +120,8 @@ class Auth {
     return false;
   }
 
+
+
   //?google sevices
 
   Future<UserCredential?> signInWithGoogle() async {
@@ -134,13 +136,13 @@ class Auth {
       }
 
       // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth =
+      final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
 
       // Create a new credential
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
 
       // Once signed in, return the UserCredential
@@ -153,6 +155,25 @@ class Auth {
       // Handle other exceptions
       print("Unexpected error: $error");
       return null; // Return null to indicate failure
+    }
+  }
+}
+
+
+class AuthenticationUtils {
+  static Future<String?> getUserToken() async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        IdTokenResult tokenResult = await user.getIdTokenResult(true);
+        return tokenResult.token;
+      } else {
+        return null; // Return null if user is not authenticated
+      }
+    } catch (e) {
+      print('Error fetching user token: $e');
+      return null;
     }
   }
 }

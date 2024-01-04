@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:alef_parents/Features/find_preschool/data/model/preschool_model.dart';
 import 'package:alef_parents/core/error/Exception.dart';
+import 'package:alef_parents/framework/services/auth/auth.dart';
 import 'package:alef_parents/framework/shared_prefrences/UserPreferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -29,13 +30,14 @@ class PreschoolRemoteDataSourceImp implements PreschoolRemoteDataSource {
 
   @override
   Future<List<PreschoolModel>> getAllPreschool() async {
-    final String? authToken = await UserPreferences.getToken();
+    String? authToken = await AuthenticationUtils.getUserToken();
+
     try {
       final response = await client.get(
-        Uri.parse("${BASE_URL}preschools/"),
+        Uri.parse("${BASE_URL}preschools/app"),
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer $authToken",
+          // "Authorization": "Bearer $authToken",
         },
       );
 
@@ -97,7 +99,7 @@ class PreschoolRemoteDataSourceImp implements PreschoolRemoteDataSource {
     double? latitude,
     double? longitude,
   ) async {
-    final String? authToken = await UserPreferences.getToken();
+    String? authToken = await AuthenticationUtils.getUserToken();
 
     try {
       final Map<String, dynamic> queryParameters = {};
@@ -119,16 +121,17 @@ class PreschoolRemoteDataSourceImp implements PreschoolRemoteDataSource {
         queryParameters["longitude"] = longitude.toString();
       }
 
-      final Uri uri = Uri.parse("${BASE_URL}preschools/")
+      final Uri uri = Uri.parse("${BASE_URL}preschools/app/")
           .replace(queryParameters: queryParameters);
 
       final response = await client.get(
         uri,
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer $authToken",
         },
       );
+      print(uri);
+      print(response.statusCode);
       if (response.statusCode == 200) {
         // Decode the response body
         final decodedData = json.decode(response.body) as List;
@@ -188,7 +191,7 @@ class PreschoolRemoteDataSourceImp implements PreschoolRemoteDataSource {
   @override
   Future<List<String>> getPreschoolGrades(int id) async {
     try {
-      final String? authToken = await UserPreferences.getToken();
+      String? authToken = await AuthenticationUtils.getUserToken();
 
       final Map<String, dynamic> queryParameters = {};
 

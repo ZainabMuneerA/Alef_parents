@@ -26,15 +26,13 @@ import '../../../../core/widget/dialog_widget.dart';
 import '../../../../core/widget/loading_widget.dart';
 import '../../../../core/widget/reuseable_input.dart';
 import '../../../../framework/Permissions/permission_manager.dart';
-import '../../../../framework/services/Debouncer.dart';
+
 import '../../../../framework/shared_prefrences/UserPreferences.dart';
-import '../../../Login/presentation/pages/LoginPage.dart';
-import '../../data/model/Enrollment.dart';
+
 import '../../domain/entity/guardianType.dart';
 import '../bloc/Application/application_bloc.dart';
 import '../widgets/DropdownWidget.dart';
 
-import 'package:async/async.dart';
 
 class EnrollStudent extends StatefulWidget {
   final int preschoolId;
@@ -323,7 +321,7 @@ class _EnrollStudentState extends State<EnrollStudent> {
           btnText: 'Try again',
           onPressed: () {
             Navigator.of(context).pop(); // Close the dialog
-            Navigator.of(context).pop(); // Navigate back to the previous page
+         //   Navigator.of(context).pop(); // Navigate back to the previous page
           },
         );
       },

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:alef_parents/Features/attendance/data/models/attendance_model.dart';
 import 'package:alef_parents/Features/attendance/data/models/attendance_status_model.dart';
 import 'package:alef_parents/core/error/Exception.dart';
+import 'package:alef_parents/framework/services/auth/auth.dart';
 import 'package:alef_parents/framework/shared_prefrences/UserPreferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -25,12 +26,13 @@ class AttendanceDataSourceImp implements AttendanceDataSource {
 
   @override
   Future<List<AttendanceModel>> getAttendanceByStudentId(int studentId) async {
-        final String? authToken = await UserPreferences.getToken();
+        String? authToken = await AuthenticationUtils.getUserToken();
 
     try {
       final response = await client.get(
         Uri.parse("${BASE_URL}attendance/$studentId"),
-        headers: {"Content-Type": "application/json","Authorization": "Bearer $authToken",},
+        headers: {"Content-Type": "application/json",
+        "Authorization": "Bearer $authToken",},
       );
       print(response.statusCode);
       if (response.statusCode == 200) {
@@ -54,7 +56,7 @@ class AttendanceDataSourceImp implements AttendanceDataSource {
   @override
   Future<AttendanceStatusModel> getAttendanceStatus(int studentId) async {
     try {
-            final String? authToken = await UserPreferences.getToken();
+       String? authToken = await AuthenticationUtils.getUserToken();
 
       final response = await client.get(
         Uri.parse("${BASE_URL}attendance/status/$studentId"),
